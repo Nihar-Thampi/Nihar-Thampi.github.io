@@ -63,19 +63,13 @@
     });
   }
 
-  /* ——— pointer: a marker dot that opens over images ——— */
+  /* ——— pointer: a trailing marker dot ——— */
   var c = document.querySelector('.cursor');
   if (c && fine && !reduce) {
-    var label = c.querySelector('span');
     doc.classList.add('has-cursor');
     var x = -500, y = -500, cx = -500, cy = -500;
     window.addEventListener('pointermove', function(e){ x = e.clientX; y = e.clientY; c.classList.add('on'); }, { passive: true });
     document.addEventListener('pointerleave', function(){ c.classList.remove('on'); });
-    document.addEventListener('pointerover', function(e){
-      var t = e.target.closest('.shot,.row-media');
-      if (t) label.textContent = t.classList.contains('row-media') ? 'View' : 'Open';
-      c.classList.toggle('open', !!t);
-    });
     (function loop(){
       cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
       c.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';

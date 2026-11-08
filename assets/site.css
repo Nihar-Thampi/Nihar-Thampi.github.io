@@ -346,11 +346,7 @@ figcaption{font-size:var(--step--1);color:var(--graphite);margin-top:.8em;max-wi
   border-radius:50%;background:var(--marker);box-shadow:0 0 0 1.5px color-mix(in srgb,#1D2B4E 45%,transparent);display:grid;place-items:center;
   transition:width .25s ease,height .25s ease,margin .25s ease,background-color .25s ease,opacity .2s ease;opacity:0;
 }
-.cursor span{font-size:.8rem;font-weight:700;color:var(--marker-ink);opacity:0;transition:opacity .2s ease}
 .cursor.on{opacity:1}
-.cursor.open{width:76px;height:76px;margin:-38px 0 0 -38px;background:var(--marker)}
-.cursor.open span{opacity:1}
-html.has-cursor .shot,html.has-cursor .row-media{cursor:none}
 
 /* ——— lightbox ——— */
 dialog.lightbox{width:min(96vw,1600px);max-width:none;max-height:94vh;padding:0;border:0;border-radius:6px;background:var(--mat);overflow:auto}
