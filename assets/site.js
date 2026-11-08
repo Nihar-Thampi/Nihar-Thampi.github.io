@@ -1,4 +1,10 @@
 (function(){
+  /* ——— clean URLs: show /projects/x instead of /projects/x.html, and / instead of /index.html ——— */
+  if (/^https?:$/.test(location.protocol) && /\.html$/.test(location.pathname)) {
+    var clean = location.pathname.replace(/(^|\/)index\.html$/, '$1').replace(/\.html$/, '');
+    history.replaceState(history.state, '', clean + location.search + location.hash);
+  }
+
   var doc = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var fine = window.matchMedia('(pointer: fine)').matches;
