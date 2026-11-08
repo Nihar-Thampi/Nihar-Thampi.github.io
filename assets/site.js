@@ -219,4 +219,27 @@
     dlg.querySelector('form').addEventListener('submit', function(e){ e.preventDefault(); closeBox(); });
     dlg.addEventListener('close', function(){ if (lenis) lenis.start(); if (from) from.closest('.shot').focus({ preventScroll: true }); });
   }
+
+  /* ——— email links: copy the address as well as opening the mail app ——— */
+  document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
+    var label = a.textContent, timer;
+    a.setAttribute('aria-live', 'polite');
+    a.addEventListener('click', function(){
+      var addr = decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
+      var done = function(){
+        a.textContent = 'Email copied'; a.classList.add('copied');
+        clearTimeout(timer);
+        timer = setTimeout(function(){ a.textContent = label; a.classList.remove('copied'); }, 2200);
+      };
+      var fallback = function(){
+        var t = document.createElement('textarea');
+        t.value = addr; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;opacity:0';
+        document.body.appendChild(t); t.select();
+        try { if (document.execCommand('copy')) done(); } catch (e) {}
+        t.remove();
+      };
+      if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(addr).then(done, fallback);
+      else fallback();
+    });
+  });
 })();
