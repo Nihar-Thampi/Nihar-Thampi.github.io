@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>YT Analyzer, Nihar Thampi</title>
+<meta name="description" content="YT Analyzer: sentiment, summaries, creator recommendations and a question-answering chat over a YouTube video's comments, run on local models.">
+<meta property="og:image" content="../img/yt-sentiment.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="home" href="../index.html">Nihar Thampi</a>
+  <nav aria-label="Main">
+    <a href="../index.html#work">All projects</a>
+    <a class="opt" href="https://github.com/Nihar-Thampi/YT-analyzer">Code</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="title-card">
+    <h1 style="view-transition-name:t-yt">YT Analyzer</h1>
+    <p class="lede">What a video’s comment section actually thinks, for the person who made the video.</p>
+    <dl class="meta">
+      <div><dt>What it is</dt><dd>Comment analytics with local models</dd></div>
+      <div><dt>Built with</dt><dd>FastAPI, Mistral 7B, FAISS, React</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose, with a CUDA option</dd></div>
+      <div><dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/YT-analyzer">github.com/Nihar-Thampi/YT-analyzer</a></dd></div>
+    </dl>
+  </section>
+
+  <div class="lead-shot">
+    <figure>
+      <button class="shot" type="button"><img src="../img/yt-sentiment.webp" width="1568" height="698" alt="Sentiment dashboard for a video: a pie chart of positive and negative comments, and a chart comparing comment sentiment with the transcript's tone."></button>
+      <figcaption>Comment sentiment for a video, compared with the tone of the video’s own transcript.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" aria-labelledby="s-why">
+    <h2 id="s-why">What it’s for</h2>
+    <div class="sec-body prose">
+      <p class="big">YouTube’s analytics tell a creator how many people watched. They don’t say what those people thought, and nobody reads 800 comments to find out.</p>
+      <p>YT Analyzer reads them for you. Paste a video link and it measures <strong>how viewers feel</strong> compared with the tone of the video itself, <strong>summarises</strong> what they said while leaving out off-topic chatter, writes <strong>recommendations</strong> for the creator, and lets you <strong>ask questions</strong> about the comments in a chat that answers only from what viewers actually wrote.</p>
+      <p>Everything runs on local models, with no per-call cost, and each account’s videos, keys and results are kept separate.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-how">
+    <h2 id="s-how">How a video is analysed</h2>
+    <div class="sec-body">
+      <ol class="flow">
+        <li><h3>Collect</h3><p>The video’s metadata and up to 500 comments come from the YouTube Data API. If the API quota runs out and the user has enabled it, a headless Selenium scraper takes over and returns the same shape of data.</p></li>
+        <li><h3>Hand off to the background</h3><p>The request returns straight away and the analysis runs as a background task. The dashboard polls every four seconds and shows which step is running.</p></li>
+        <li><h3>Read the transcript first</h3><p>The transcript is fetched and summarised with DistilBART, in chunks and then once more over the combined summaries, because a 20-minute video doesn’t fit in one pass. Its sentiment becomes the video’s own tone, and its topic grounds every later step. Without captions, the later steps fall back to versions that don’t need it.</p></li>
+        <li><h3>Score every comment</h3><p>SieBERT classifies each comment. When its confidence is below 0.70, the comment is scored again by BART-MNLI as zero-shot classification against the video’s topic, so slang like “this is sick” on a gaming video reads as praise.</p></li>
+        <li><h3>Summarise and advise</h3><p>Mistral 7B summarises the comments in light of the transcript and is told to leave out off-topic ones. It then interprets the sentiment numbers in a few sentences and writes five recommendations for the creator.</p></li>
+        <li><h3>Index for questions</h3><p>The comments are embedded with all-MiniLM-L6-v2 into a FAISS index saved for that video. A question pulls the closest comments, and Mistral answers only from them, or says it can’t answer.</p></li>
+      </ol>
+      <div class="shots two">
+        <figure>
+          <button class="shot" type="button"><img src="../img/yt-summary.webp" width="1568" height="698" loading="lazy" alt="Summary tab with audience sentiment compared with the transcript, a transcript summary and a comment summary."></button>
+          <figcaption>Audience sentiment against the transcript, the transcript summary and the comment summary.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/yt-chat.webp" width="1568" height="698" loading="lazy" alt="Chat tab answering a question about what viewers say about learning to code with AI tools."></button>
+          <figcaption>A question answered from the comments themselves.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-what">
+    <h2 id="s-what">What it does</h2>
+    <div class="sec-body">
+      <div class="features">
+        <div>
+          <h3>Analysis</h3>
+          <ul>
+            <li>Positive, negative and neutral shares of the comments</li>
+            <li>Viewer sentiment compared with the video’s own tone</li>
+            <li>A written interpretation of the numbers</li>
+            <li>A comment summary that ignores off-topic replies</li>
+          </ul>
+        </div>
+        <div>
+          <h3>For the creator</h3>
+          <ul>
+            <li>Five concrete recommendations based on viewer feedback</li>
+            <li>A chat for questions like “why did people dislike this?”</li>
+            <li>A table of every comment with its sentiment</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Accounts</h3>
+          <ul>
+            <li>JWT sign-in with bcrypt-hashed passwords</li>
+            <li>Each user’s videos, API key and analytics kept separate</li>
+            <li>Several videos per account, switchable from the sidebar</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Hardware</h3>
+          <ul>
+            <li>NVIDIA GPUs in float16, Apple Silicon through MPS, and CPU in bfloat16</li>
+            <li>Models load on first use</li>
+          </ul>
+        </div>
+      </div>
+      <div class="shots">
+        <figure>
+          <button class="shot" type="button"><img src="../img/yt-comments.webp" width="1568" height="698" loading="lazy" alt="Comments tab listing each comment with its sentiment label."></button>
+          <figcaption>Every comment with its sentiment label.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-stack">
+    <h2 id="s-stack">Tech stack</h2>
+    <div class="sec-body">
+      <table class="stack">
+        <thead><tr><th scope="col">Layer</th><th scope="col">Tools</th><th scope="col">What it does here</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">API</th><td>FastAPI</td><td>The REST API, with background tasks for the analysis pipeline</td></tr>
+          <tr><th scope="row">Data</th><td>SQLAlchemy, SQLite</td><td>Users, settings, videos, comments and one analytics row per video</td></tr>
+          <tr><th scope="row">Sentiment</th><td>SieBERT, BART-MNLI</td><td>A fast classifier for every comment, and topic-aware re-scoring for unsure ones</td></tr>
+          <tr><th scope="row">Summaries</th><td>DistilBART</td><td>Transcript summaries, and the fallback comment summary</td></tr>
+          <tr><th scope="row">Language model</th><td>Mistral 7B Instruct</td><td>Comment summaries, sentiment interpretation, recommendations and chat answers</td></tr>
+          <tr><th scope="row">Search</th><td>sentence-transformers, FAISS</td><td>Comment embeddings and exact cosine-similarity search for the chat</td></tr>
+          <tr><th scope="row">Collection</th><td>YouTube Data API v3, Selenium, BeautifulSoup</td><td>Comments and metadata, with a scraping fallback</td></tr>
+          <tr><th scope="row">Auth</th><td>python-jose, bcrypt</td><td>JWT sign-in and hashed passwords</td></tr>
+          <tr><th scope="row">Frontend</th><td>React, Vite, Recharts, axios</td><td>The dashboard, charts, polling and chat</td></tr>
+          <tr><th scope="row">Running it</th><td>Docker Compose</td><td>One command, with a GPU variant and models cached in a volume</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-dec">
+    <h2 id="s-dec">Decisions and trade-offs</h2>
+    <div class="sec-body decisions">
+      <div><h3>One 7B model, four jobs</h3><p>Summaries, interpretation, recommendations and chat all share a single loaded Mistral instance with greedy decoding, so results are repeatable and a 7B model is only held in memory once.</p></div>
+      <div><h3>Pay for the expensive model only when needed</h3><p>SieBERT is fast and right most of the time. The heavier zero-shot check runs only on comments it’s unsure about.</p></div>
+      <div><h3>Exact search is enough</h3><p>A video has hundreds of comments, not millions, so a brute-force FAISS index is exact and needs no tuning. Searching across every video would need an approximate index.</p></div>
+      <div><h3>What I’d change next</h3><p>Background tasks run in the API process and pipeline status lives in memory, so a restart mid-analysis loses the job. A proper job queue and stored status would fix both.</p></div>
+    </div>
+  </section>
+
+  <nav class="next" aria-label="Next project">
+    <a href="solarops.html"><small>Next project</small><span class="row-name" style="view-transition-name:t-solarops">SolarOps</span></a>
+  </nav>
+</main>
+
+<footer>
+  <span>Nihar Thampi, Bangalore</span>
+  <a href="../index.html#work">All projects</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" type="submit">Close</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+<div class="cursor" aria-hidden="true"><span>Open</span></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

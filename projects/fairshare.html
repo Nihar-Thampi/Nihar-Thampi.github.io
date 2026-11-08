@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FairShare, Nihar Thampi</title>
+<meta name="description" content="FairShare: scan an invoice or receipt into line items with OCR and an LLM, track what's unpaid, and split shared bills item by item.">
+<meta property="og:image" content="../img/fairshare-review.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="home" href="../index.html">Nihar Thampi</a>
+  <nav aria-label="Main">
+    <a href="../index.html#work">All projects</a>
+    <a class="opt" href="https://github.com/Nihar-Thampi/FairShare">Code</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="title-card">
+    <h1 style="view-transition-name:t-fairshare">FairShare</h1>
+    <p class="lede">Photograph an invoice or receipt, get every line item, and split shared bills fairly.</p>
+    <dl class="meta">
+      <div><dt>What it is</dt><dd>Invoice management web app</dd></div>
+      <div><dt>Built with</dt><dd>Flask, EasyOCR, OpenAI API, React</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose</dd></div>
+      <div><dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/FairShare">github.com/Nihar-Thampi/FairShare</a></dd></div>
+    </dl>
+  </section>
+
+  <div class="lead-shot">
+    <figure class="narrow">
+      <button class="shot" type="button"><img src="../img/fairshare-review.webp" width="856" height="600" alt="Review table of items extracted from a restaurant bill, with two GST lines highlighted and marked as tax."></button>
+      <figcaption>Items read from a restaurant bill. Each cell is editable, and the two GST lines were detected as tax.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" aria-labelledby="s-why">
+    <h2 id="s-why">What it’s for</h2>
+    <div class="sec-body prose">
+      <p class="big">Invoices and receipts arrive as photos and scans. Getting them into something you can track means typing every vendor, date and line item by hand, and splitting a shared bill fairly means doing arithmetic over who had what.</p>
+      <p>FairShare reads the document for you. Upload a photo or scan and OCR plus an LLM extract the <strong>vendor, invoice number, dates, currency, printed total and every line item</strong>, with tax lines marked. You then track what’s <strong>unpaid or overdue</strong>, export to CSV, and when a bill is shared, <strong>split it item by item</strong> between the people who had each thing.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-how">
+    <h2 id="s-how">From photo to split</h2>
+    <div class="sec-body">
+      <ol class="flow">
+        <li><h3>Upload</h3><p>Drop in a photo or scan. Multi-page invoices work, and the file is saved under a random name.</p></li>
+        <li><h3>Read the text</h3><p>EasyOCR reads the image locally. Its text boxes are grouped into lines by vertical position, after correcting for the median tilt of the photo, so a skewed picture doesn’t pair an item with the wrong price.</p></li>
+        <li><h3>Structure it</h3><p>GPT-4o mini turns the raw text into structured JSON in JSON mode at low temperature, following rules for quantity, rate and total columns, wrapped item names and which rows to exclude. Malformed JSON gets an automatic repair retry.</p></li>
+        <li><h3>Clean it up</h3><p>A deterministic pipeline of about ten small functions fixes the failures I kept seeing: the rupee sign read as a “2”, item names split into fragments, bogus tax lines and impossible quantities, which are re-derived from total over unit price.</p></li>
+        <li><h3>Check the total</h3><p>The extracted items are added up and compared with the total printed on the invoice. A difference shows as a warning, so a missed or misread line gets caught.</p></li>
+        <li><h3>Review and track</h3><p>Every field can be corrected, and a rescan only fills empty fields so it never overwrites your edits. Mark invoices paid or unpaid; unpaid ones past their due date show as overdue.</p></li>
+        <li><h3>Split, if it’s shared</h3><p>Add the people, assign each item to one or more of them, and calculate. The split is exact to the cent.</p></li>
+      </ol>
+      <div class="shots two">
+        <figure>
+          <button class="shot" type="button"><img src="../img/fairshare-upload.webp" width="856" height="744" loading="lazy" alt="Upload step with a receipt image being read."></button>
+          <figcaption>Uploading a receipt.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/fairshare-assign.webp" width="856" height="744" loading="lazy" alt="Assign step where each line item is given to one or more people."></button>
+          <figcaption>Assigning items to people.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-what">
+    <h2 id="s-what">What it does</h2>
+    <div class="sec-body">
+      <div class="features">
+        <div>
+          <h3>Invoices</h3>
+          <ul>
+            <li>Scan to extract vendor, invoice number, dates, currency, printed total and line items</li>
+            <li>A totals check against the printed total</li>
+            <li>Editable fields, with rescans that never overwrite edits</li>
+            <li>Payment tracking with overdue detection</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dashboard and export</h3>
+          <ul>
+            <li>Outstanding, overdue and paid-this-month amounts, kept separate per currency</li>
+            <li>Search, and filters by status and category</li>
+            <li>CSV export of the filtered list, with cells escaped so text from a scanned document can’t run as a spreadsheet formula</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Splitting a bill</h3>
+          <ul>
+            <li>Each item split equally, by percentage or by custom amount</li>
+            <li>Percentages must add up to 100% and custom amounts to the item’s total before they’re accepted</li>
+            <li>Tax shared evenly across everyone</li>
+            <li>A breakdown of which items make up each person’s share</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Accounts</h3>
+          <ul>
+            <li>Passwords hashed with bcrypt</li>
+            <li>15-minute access tokens and 7-day refresh tokens</li>
+            <li>Every query scoped to the signed-in user</li>
+          </ul>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="narrow">
+          <button class="shot" type="button"><img src="../img/fairshare-results.webp" width="856" height="680" loading="lazy" alt="Results showing three people's shares with item breakdowns, adding up to a grand total of $3218.26, above the uploaded receipt."></button>
+          <figcaption>Three shares with their item breakdowns, adding up exactly to the grand total, above the receipt they came from.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-stack">
+    <h2 id="s-stack">Tech stack</h2>
+    <div class="sec-body">
+      <table class="stack">
+        <thead><tr><th scope="col">Layer</th><th scope="col">Tools</th><th scope="col">What it does here</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">API</th><td>Flask, flask-cors</td><td>The REST API, with a global JWT guard</td></tr>
+          <tr><th scope="row">OCR</th><td>EasyOCR</td><td>Reads text from photos and scans locally, with no per-call cost</td></tr>
+          <tr><th scope="row">Extraction</th><td>OpenAI API, GPT-4o mini</td><td>Turns OCR text into structured invoice data</td></tr>
+          <tr><th scope="row">Data</th><td>SQLite</td><td>A normalised schema of users, bills, people, items and assignments, with cascading deletes and in-code migrations</td></tr>
+          <tr><th scope="row">Auth</th><td>PyJWT, bcrypt</td><td>Access and refresh tokens, and hashed passwords</td></tr>
+          <tr><th scope="row">Frontend</th><td>React, TypeScript, Vite</td><td>The single-page app, with React Router for navigation</td></tr>
+          <tr><th scope="row">UI</th><td>Mantine</td><td>Components and notifications</td></tr>
+          <tr><th scope="row">State</th><td>Zustand, axios</td><td>Auth and active-bill state, and the API client</td></tr>
+          <tr><th scope="row">Upload</th><td>react-dropzone</td><td>Dragging in receipt images</td></tr>
+          <tr><th scope="row">Running it</th><td>Docker Compose</td><td>One command on Windows or macOS, with OCR models cached in a volume</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-dec">
+    <h2 id="s-dec">Decisions and trade-offs</h2>
+    <div class="sec-body decisions">
+      <div><h3>The LLM is a first pass, not the answer</h3><p>Even at low temperature the model isn’t deterministic, so its output goes through a cleanup layer that can be tested on its own. Each fix there came from a real receipt that went wrong.</p></div>
+      <div><h3>OCR plus a text model, not a vision model</h3><p>Local OCR costs nothing per call, and its output is predictable, which makes failures easy to see and fix. The model then only does what text models are good at: structuring.</p></div>
+      <div><h3>Totals that always reconcile</h3><p>Splitting and rounding can leave a cent unaccounted for. A final pass compares the sum of everyone’s share with the bill’s grand total and gives any difference to the largest share, so the numbers always add up. Results are saved with insert-or-replace, so recalculating is safe.</p></div>
+      <div><h3>What I’d change at scale</h3><p>Flask handles OCR and model calls synchronously, which ties up a worker, and SQLite allows one writer at a time. For more users I’d move to an async job queue and PostgreSQL.</p></div>
+    </div>
+  </section>
+
+  <nav class="next" aria-label="Next project">
+    <a href="sa-tax-bot.html"><small>Next project</small><span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span></a>
+  </nav>
+</main>
+
+<footer>
+  <span>Nihar Thampi, Bangalore</span>
+  <a href="../index.html#work">All projects</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" type="submit">Close</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+<div class="cursor" aria-hidden="true"><span>Open</span></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

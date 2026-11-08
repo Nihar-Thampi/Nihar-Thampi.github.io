@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SA Tax Bot, Nihar Thampi</title>
+<meta name="description" content="SA Tax Bot: a chatbot for South Africa's Income Tax Act that answers from retrieved passages with a local model and cites the exact lines behind every point.">
+<meta property="og:image" content="../img/taxbot-source.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="home" href="../index.html">Nihar Thampi</a>
+  <nav aria-label="Main">
+    <a href="../index.html#work">All projects</a>
+    <a class="opt" href="https://github.com/Nihar-Thampi/Tax-Bot">Code</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="title-card">
+    <h1 style="view-transition-name:t-taxbot">SA Tax Bot</h1>
+    <p class="lede">Ask South Africa’s Income Tax Act a question and see the passage behind every point of the answer.</p>
+    <dl class="meta">
+      <div><dt>What it is</dt><dd>Retrieval chatbot, plus offline ML tooling</dd></div>
+      <div><dt>Built with</dt><dd>Flask, ChromaDB, Hugging Face Transformers, React</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose, with a CUDA option</dd></div>
+      <div><dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/Tax-Bot">github.com/Nihar-Thampi/Tax-Bot</a></dd></div>
+    </dl>
+  </section>
+
+  <div class="lead-shot">
+    <figure>
+      <button class="shot" type="button"><img src="../img/taxbot-source.webp" width="1568" height="744" alt="An answer about deductible trade expenses with one citation opened, showing the source passage from Section 11 with its line numbers and Gazette page."></button>
+      <figcaption>An answer about trade deductions with one citation open: Section 11, lines 1894 to 1896 of the Act, Gazette page 59.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" aria-labelledby="s-why">
+    <h2 id="s-why">What it’s for</h2>
+    <div class="sec-body prose">
+      <p class="big">The Income Tax Act is hundreds of pages of dense legal text. Most people only want to know what applies to them, and they need to see where the answer comes from before they can rely on it.</p>
+      <p>SA Tax Bot answers questions about the Act in plain language, and every point of the answer carries a <strong>citation that opens the exact passage</strong> it came from, with the section, its line numbers and its Government Gazette page. Points it can’t support aren’t shown.</p>
+      <p>It also ships the <strong>offline tooling</strong> behind it: turning the scanned Act into text, building the search index, fine-tuning a local model on the Act, and scanning a bank statement for transactions that look like deductions. It’s informational only, not tax advice, and the interface says so.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-how">
+    <h2 id="s-how">How an answer is made</h2>
+    <div class="sec-body">
+      <ol class="flow">
+        <li><h3>The Act becomes searchable text</h3><p>The scanned PDF of the Act is run through Tesseract OCR with PyMuPDF. Every line is tagged with its section, its line number and its Gazette page.</p></li>
+        <li><h3>It’s indexed</h3><p>The text is split into paragraphs, embedded with all-MiniLM-L6-v2 and stored in a ChromaDB vector index.</p></li>
+        <li><h3>A question finds the right provisions</h3><p>Retrieval combines vector search with sections whose titles closely match the question, and skips table-of-contents chunks that match well but say nothing.</p></li>
+        <li><h3>A local model answers</h3><p>A Hugging Face model, Qwen2.5-7B Instruct in my setup, answers from those excerpts only. On an NVIDIA GPU it loads in 4-bit to fit in about 6 GB of memory, and a Stop button cancels generation mid-answer.</p></li>
+        <li><h3>Every point is checked for a source</h3><p>The answer is split into points, and each one is matched by embedding similarity to the passages that were actually retrieved. A point that names a section can only be cited to that section’s text. A point with no close match is hidden rather than given a made-up citation.</p></li>
+      </ol>
+      <div class="shots two">
+        <figure>
+          <button class="shot" type="button"><img src="../img/taxbot-answer.webp" width="1568" height="744" loading="lazy" alt="Chat answer listing deductible trade expenses under Section 11, each point followed by a citation."></button>
+          <figcaption>Each point of the answer carries its own citation.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/taxbot-stop.webp" width="1568" height="744" loading="lazy" alt="The chat while an answer is being generated, with a Stop button."></button>
+          <figcaption>Generation can be stopped mid-answer.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-what">
+    <h2 id="s-what">What it does</h2>
+    <div class="sec-body">
+      <div class="features">
+        <div>
+          <h3>Chat</h3>
+          <ul>
+            <li>Plain-language answers about the Act</li>
+            <li>A citation on every point, opening the source lines</li>
+            <li>Saved conversations with search, per user</li>
+            <li>A Stop button that cancels generation on the server</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Two ways to answer</h3>
+          <ul>
+            <li>Retrieval mode, the default, answers from the indexed Act</li>
+            <li>Fine-tuned mode uses a LoRA adapter trained on the Act instead of retrieval</li>
+            <li>One setting switches between them</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Training pipeline</h3>
+          <ul>
+            <li>A raw text corpus of the Act for causal language-model pretraining</li>
+            <li>An instruction-tuning dataset built from the Act</li>
+            <li>LoRA fine-tuning of a local model with PEFT</li>
+            <li>A terminal chat for testing without the web app</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Deduction scanner</h3>
+          <ul>
+            <li>Generates a realistic South African bank statement for testing</li>
+            <li>Sends only money going out to the model, with relevant passages of the Act</li>
+            <li>Flags transactions that look like deductions</li>
+            <li>Marks a batch for manual review if the model’s output isn’t valid JSON</li>
+          </ul>
+        </div>
+      </div>
+      <div class="shots">
+        <figure>
+          <button class="shot" type="button"><img src="../img/taxbot-history.webp" width="1568" height="744" loading="lazy" alt="The chat interface with a sidebar of saved conversations."></button>
+          <figcaption>Saved conversations in the sidebar.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-stack">
+    <h2 id="s-stack">Tech stack</h2>
+    <div class="sec-body">
+      <table class="stack">
+        <thead><tr><th scope="col">Layer</th><th scope="col">Tools</th><th scope="col">What it does here</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">API</th><td>Flask, flask-cors</td><td>Chat, conversations, cancellation and sign-in, with JWT auth</td></tr>
+          <tr><th scope="row">Retrieval</th><td>ChromaDB, sentence-transformers</td><td>The vector index of the Act, and the embeddings used to match citations</td></tr>
+          <tr><th scope="row">Generation</th><td>Hugging Face Transformers, PyTorch, Accelerate</td><td>Runs the local model on CUDA, Apple Silicon or CPU</td></tr>
+          <tr><th scope="row">Fine-tuning</th><td>PEFT, Datasets</td><td>LoRA adapters trained on instruction data built from the Act</td></tr>
+          <tr><th scope="row">Document text</th><td>Tesseract, PyMuPDF</td><td>OCR of the scanned Act</td></tr>
+          <tr><th scope="row">Offline scripts</th><td>OpenAI API</td><td>Generating a test bank statement and classifying its transactions</td></tr>
+          <tr><th scope="row">Frontend</th><td>React, TypeScript, Vite</td><td>The chat app</td></tr>
+          <tr><th scope="row">UI and state</th><td>Mantine, Zustand, Axios</td><td>Components, chat state and the API client</td></tr>
+          <tr><th scope="row">Running it</th><td>Docker Compose</td><td>One command, with a GPU variant for NVIDIA cards and a model cache in a volume</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-dec">
+    <h2 id="s-dec">Decisions and trade-offs</h2>
+    <div class="sec-body decisions">
+      <div><h3>Citations are checked, not generated</h3><p>Asking a model to cite its sources invites invented section numbers. Instead, citations are attached after the answer by matching each point against the retrieved text. If nothing is close enough, the point is dropped rather than shown with a citation that looks trustworthy and isn’t.</p></div>
+      <div><h3>A local model</h3><p>Answers come from a model running on your own machine, so questions about personal finances never leave it. The trade-off is speed: without a GPU, a 7B model is slow and needs about 16 GB of memory.</p></div>
+      <div><h3>Retrieval and fine-tuning, side by side</h3><p>Both approaches run in the same app, so they can be compared on the same questions. Retrieval stays the default because it can point to its source; a fine-tuned model can’t.</p></div>
+      <div><h3>Known limit</h3><p>The text is the Act as published in 1962, so later amendments aren’t included. The interface states this under every chat.</p></div>
+    </div>
+  </section>
+
+  <nav class="next" aria-label="Next project">
+    <a href="yt-analyzer.html"><small>Next project</small><span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span></a>
+  </nav>
+</main>
+
+<footer>
+  <span>Nihar Thampi, Bangalore</span>
+  <a href="../index.html#work">All projects</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" type="submit">Close</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+<div class="cursor" aria-hidden="true"><span>Open</span></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

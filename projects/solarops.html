@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SolarOps, Nihar Thampi</title>
+<meta name="description" content="SolarOps: multi-tenant maintenance and job tracking for solar O&amp;M companies, with Claude drafting jobs, service reports and feedback insights for people to approve.">
+<meta property="og:image" content="../img/solarops-dashboard.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="home" href="../index.html">Nihar Thampi</a>
+  <nav aria-label="Main">
+    <a href="../index.html#work">All projects</a>
+    <a class="opt" href="https://github.com/Nihar-Thampi">GitHub</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="title-card">
+    <h1 style="view-transition-name:t-solarops">SolarOps</h1>
+    <p class="lede">Maintenance and job tracking for companies that service solar installations, with AI built into the daily work.</p>
+    <dl class="meta">
+      <div><dt>What it is</dt><dd>Multi-tenant web app</dd></div>
+      <div><dt>Built with</dt><dd>FastAPI, React 19, PostgreSQL, Claude API</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose, seeded with demo companies</dd></div>
+      <div><dt>Code</dt><dd>Private for now</dd></div>
+    </dl>
+  </section>
+
+  <div class="lead-shot">
+    <figure>
+      <button class="shot" type="button"><img src="../img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard: open, unassigned and overdue job counts, jobs created against completed over 12 weeks, open jobs by status, a table by region and technician workload."></button>
+      <figcaption>The dashboard for an admin: open, unassigned and overdue work, services coming due, weekly throughput, technician workload and a breakdown by region. Every chart can also be shown as a table.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" aria-labelledby="s-why">
+    <h2 id="s-why">What it’s for</h2>
+    <div class="sec-body prose">
+      <p class="big">A solar operations and maintenance company looks after hundreds of installations for many clients, with crews spread across regions. Requests arrive by email, text and phone, some services recur every few months, and every visit should leave a record the customer can trust.</p>
+      <p>That usually lives in spreadsheets, inboxes and memory. SolarOps puts it in one place: <strong>clients</strong>, their <strong>sites</strong>, the <strong>recurring services</strong> each site needs, and every <strong>job</strong> from the first request to a signed-off <strong>service report</strong>, which becomes the site’s maintenance history. Customers rate each visit from a link, and AI turns those reviews into something a manager can act on.</p>
+      <p>Admins see the whole company. Managers see only the regions they run. Technicians see their own jobs, plus unassigned work in their region that they can pick up.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-how">
+    <h2 id="s-how">How a job moves through it</h2>
+    <div class="sec-body">
+      <ol class="flow">
+        <li><h3>A request comes in</h3><p>A manager pastes the customer’s email, text or call notes into AI intake. Claude drafts the job: service type, priority, the matching client and site, and contact details. Nothing is created until the manager reviews it and clicks Create job.</p></li>
+        <li><h3>Someone is assigned</h3><p>Suggested technicians are ranked by matching skills and how much open work they already have. A job can also stay unassigned for technicians in that region to pick up.</p></li>
+        <li><h3>The work happens</h3><p>The job moves from new to scheduled, in progress, on hold and completed, with an activity timeline of every change and note.</p></li>
+        <li><h3>The technician writes it up</h3><p>Rough field notes, written the way you would on site, plus optional readings, become a customer-ready report with a summary, work performed, findings and recommendations. The technician edits it and finalises it, and it prints or saves as a PDF.</p></li>
+        <li><h3>The customer rates the visit</h3><p>A link goes to the customer after the visit. Every review is tagged with sentiment and themes, and on demand AI summarises what customers value, their recurring complaints and suggested actions.</p></li>
+        <li><h3>The next visit is already scheduled</h3><p>If the job came from a recurring service, completing it rolls that service’s next due date forward, and the site’s maintenance history gains another final report.</p></li>
+      </ol>
+      <div class="shots two">
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-intake-message.webp" width="1568" height="744" loading="lazy" alt="AI job intake dialog with a pasted customer message about an inverter fault."></button>
+          <figcaption>AI intake, with a customer’s message pasted in.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-intake.webp" width="1568" height="744" loading="lazy" alt="The drafted job with client, site, service type and priority filled in, waiting for review."></button>
+          <figcaption>The drafted job, with its reasoning and confidence shown, ready for review.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-suggested.webp" width="1568" height="744" loading="lazy" alt="Job detail page showing suggested technicians and an empty technician notes box with a Draft report with AI button."></button>
+          <figcaption>A job with suggested technicians, and the notes box the report is drafted from.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-report.webp" width="1568" height="744" loading="lazy" alt="A finalised service report listing work performed, findings and readings."></button>
+          <figcaption>The finalised report, which is now the site’s maintenance record.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-what">
+    <h2 id="s-what">What it does</h2>
+    <div class="sec-body">
+      <div class="features">
+        <div>
+          <h3>Operations</h3>
+          <ul>
+            <li>Separate companies on one system, each with its data fully isolated</li>
+            <li>Work split by region, with Admin, Manager and Technician roles</li>
+            <li>Jobs with priorities, due dates, statuses, notes and filters by region, assignee, priority and service</li>
+            <li>Recurring services per site, such as panel cleaning every 90 days</li>
+            <li>Maintenance history for every site</li>
+          </ul>
+        </div>
+        <div>
+          <h3>AI features</h3>
+          <ul>
+            <li>Job intake from customer emails, texts and call notes</li>
+            <li>Service reports drafted from field notes</li>
+            <li>Sentiment and themes on every review, with summaries on demand</li>
+            <li>An AI activity log with each call’s input, output, model, latency, tokens and whether it fell back</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Audit log</h3>
+          <ul>
+            <li>Every change, sign-in, failed sign-in and refused request: who, what, which record, before and after values, IP address and device</li>
+            <li>Append-only, enforced by database triggers</li>
+            <li>Hash-chained per company, with a one-click integrity check</li>
+            <li>Filters and CSV export, both of which are logged too</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Dashboard</h3>
+          <ul>
+            <li>Open, unassigned and overdue work at a glance</li>
+            <li>Services coming due with no job yet</li>
+            <li>Weekly throughput, technician workload and a breakdown by region</li>
+            <li>Customer sentiment, and a table view for every chart</li>
+          </ul>
+        </div>
+      </div>
+      <div class="shots two">
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-services.webp" width="1568" height="744" loading="lazy" alt="Required services table listing recurring services, their interval, last done date and next due date, with overdue ones flagged."></button>
+          <figcaption>Required services, with overdue ones flagged and a button to raise a job.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-client.webp" width="1568" height="744" loading="lazy" alt="Client detail page with sites and their recurring service schedules."></button>
+          <figcaption>A client, their sites and each site’s recurring services.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-insights.webp" width="1568" height="744" loading="lazy" alt="Customer feedback page with an AI summary of what customers value, recurring complaints and suggested actions, above tagged reviews."></button>
+          <figcaption>Feedback insights across 81 reviews, above every review tagged with sentiment and themes.</figcaption>
+        </figure>
+        <figure>
+          <button class="shot" type="button"><img src="../img/solarops-audit.webp" width="1568" height="744" loading="lazy" alt="Audit log confirming all 409 entries match their hash chain."></button>
+          <figcaption>The audit log after Verify integrity: all 409 entries match their hash chain.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-stack">
+    <h2 id="s-stack">Tech stack</h2>
+    <div class="sec-body">
+      <table class="stack">
+        <thead><tr><th scope="col">Layer</th><th scope="col">Tools</th><th scope="col">What it does here</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Frontend</th><td>React 19, TypeScript, Vite</td><td>The single-page app, with React Router for navigation</td></tr>
+          <tr><th scope="row">UI</th><td>Tailwind CSS v4, Radix UI</td><td>Accessible shadcn-style components, with a light and a dark theme</td></tr>
+          <tr><th scope="row">Data fetching</th><td>TanStack Query</td><td>Caching and refetching server data, so lists update after every change</td></tr>
+          <tr><th scope="row">Charts</th><td>Recharts</td><td>Dashboard charts, each with a table view</td></tr>
+          <tr><th scope="row">API</th><td>FastAPI, Pydantic v2</td><td>The REST API, with request and response validation</td></tr>
+          <tr><th scope="row">Data</th><td>SQLAlchemy 2, PostgreSQL or SQLite</td><td>SQLite by default, PostgreSQL through one setting. Triggers keep the audit log append-only.</td></tr>
+          <tr><th scope="row">Access control</th><td>JWT, bcrypt</td><td>Sign-in, with company and region scoping applied in one shared dependency on every query</td></tr>
+          <tr><th scope="row">AI</th><td>Claude API</td><td>Structured JSON outputs for intake, reports and insights, with a rule-based fallback</td></tr>
+          <tr><th scope="row">Tests</th><td>pytest</td><td>Company and region isolation, permissions, the job lifecycle and the AI fallback</td></tr>
+          <tr><th scope="row">Running it</th><td>Docker Compose</td><td>One command starts it and seeds two demo companies with accounts for every role</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-dec">
+    <h2 id="s-dec">Decisions and trade-offs</h2>
+    <div class="sec-body decisions">
+      <div><h3>AI output is always a draft</h3><p>The model never changes data on its own. Whatever it produces is shown to a person, who accepts or edits it. Any ID the model picks, such as which client a message is about, is checked against what that user is allowed to see before it’s used.</p></div>
+      <div><h3>It still works when the model doesn’t</h3><p>If the Claude call fails or no API key is set, each feature falls back to rule-based logic. The top bar shows which mode is active, and the AI log records every fallback.</p></div>
+      <div><h3>Scoping in one place</h3><p>Company and region filtering happens in a single dependency that every route uses, so a new endpoint can’t forget it. Tests sign in as each role and as a second company to prove the isolation holds.</p></div>
+      <div><h3>An audit log you can prove</h3><p>Database triggers reject edits and deletes, and each entry stores a hash of the one before it. Verifying the chain shows that nothing was altered, removed or reordered. Even viewing and exporting the log is logged.</p></div>
+    </div>
+  </section>
+
+  <nav class="next" aria-label="Next project">
+    <a href="gleaner.html"><small>Next project</small><span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span></a>
+  </nav>
+</main>
+
+<footer>
+  <span>Nihar Thampi, Bangalore</span>
+  <a href="../index.html#work">All projects</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" type="submit">Close</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+<div class="cursor" aria-hidden="true"><span>Open</span></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>

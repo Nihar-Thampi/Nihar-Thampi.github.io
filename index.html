@@ -8,228 +8,21 @@
 <meta property="og:title" content="Nihar Thampi">
 <meta property="og:description" content="Software that reads messy things and turns them into data you can check.">
 <meta property="og:image" content="img/solarops-dashboard.webp">
-<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('loading');</script>
+<script>
+try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('introSeen'))document.documentElement.classList.add('loading');}catch(e){}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400;0,500;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
-<style>
-:root{
-  --paper:#E9EDF1;
-  --mat:#F7F9FB;
-  --ink:#1D2B4E;
-  --graphite:#58647A;
-  --rule:#C4CCD6;
-  --marker:#F2D94E;
-  --marker-ink:#1D2B4E;
-  --gutter:clamp(16px,4vw,56px);
-  --step--1:clamp(.84rem,.8rem + .15vw,.92rem);
-  --step-0:clamp(1rem,.96rem + .2vw,1.125rem);
-  --step-1:clamp(1.2rem,1.1rem + .5vw,1.5rem);
-  --step-2:clamp(1.6rem,1.3rem + 1.4vw,2.4rem);
-  --step-3:clamp(2.4rem,1.6rem + 3.6vw,4.8rem);
-  --step-hero:clamp(4.2rem,1rem + 15vw,14.5rem);
-  color-scheme:light;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --paper:#141C2F;--mat:#1B2540;--ink:#E4E9F1;--graphite:#9AA6BB;--rule:#2E3A57;
-    --marker:#C9B23A;--marker-ink:#141C2F;color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#141C2F;--mat:#1B2540;--ink:#E4E9F1;--graphite:#9AA6BB;--rule:#2E3A57;
-  --marker:#C9B23A;--marker-ink:#141C2F;color-scheme:dark;
-}
-
-*,*::before,*::after{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-html.lenis,html.lenis body{height:auto}
-.lenis.lenis-smooth{scroll-behavior:auto!important}
-body{
-  margin:0;background:var(--paper);color:var(--ink);
-  font-family:"Schibsted Grotesk",system-ui,sans-serif;font-size:var(--step-0);line-height:1.55;
-  font-feature-settings:"ss01";-webkit-font-smoothing:antialiased;overflow-x:hidden;
-}
-img{display:block;max-width:100%;height:auto}
-a{color:inherit;text-decoration-thickness:1px;text-underline-offset:.2em}
-a:hover{text-decoration-thickness:2px}
-::selection{background:var(--marker);color:var(--marker-ink)}
-:focus-visible{outline:3px solid var(--marker);outline-offset:3px;border-radius:2px}
-.skip{position:absolute;left:-999px;top:8px;background:var(--ink);color:var(--paper);padding:.5rem 1rem;z-index:100}
-.skip:focus{left:8px}
-p{margin:0 0 1em}
-h1,h2,h3{margin:0;font-weight:800;letter-spacing:-.035em;line-height:.95}
-
-/* ——— top bar ——— */
-.bar{
-  position:fixed;inset:0 0 auto 0;z-index:20;display:flex;justify-content:space-between;align-items:center;
-  padding:14px var(--gutter);font-size:var(--step--1);font-weight:500;
-  background:color-mix(in srgb,var(--paper) 86%,transparent);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  transition:opacity .5s ease;
-}
-.bar a{text-decoration:none}
-.bar a:hover{text-decoration:underline}
-.bar nav{display:flex;gap:clamp(14px,3vw,32px)}
-.bar .home{font-weight:700}
-
-/* ——— hero ——— */
-.hero{
-  min-height:100svh;display:grid;grid-template-rows:1fr auto;gap:clamp(32px,6vh,72px);
-  padding:clamp(88px,14vh,140px) var(--gutter) clamp(28px,5vh,56px);
-}
-.name{
-  align-self:end;font-size:var(--step-hero);font-weight:900;letter-spacing:-.055em;line-height:.84;
-  position:relative;width:max-content;max-width:100%;isolation:isolate;
-}
-.name .line{display:block;position:relative;width:max-content}
-.name .line::before{
-  content:"";position:absolute;z-index:-1;left:-.04em;right:-.06em;top:.2em;bottom:.02em;
-  background:var(--marker);transform-origin:left center;transform:scaleX(0) skewX(-8deg);
-  border-radius:.04em .12em .06em .1em;
-}
-.name.marked .line::before{transform:scaleX(1) skewX(-8deg);transition:transform .55s cubic-bezier(.65,.05,.25,1)}
-.name.marked .line:nth-child(2)::before{transition-delay:.22s}
-.name.marked{color:var(--marker-ink)}
-.name .ch{display:inline-block}
-.name .ch.noise{color:var(--graphite);font-weight:400}
-
-.hero-foot{
-  display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:24px clamp(24px,5vw,80px);align-items:end;
-}
-.statement{font-size:var(--step-2);line-height:1.18;letter-spacing:-.02em;font-weight:500;max-width:30ch;margin:0}
-.who{font-size:var(--step-0);color:var(--graphite);max-width:34ch}
-.who p{margin:0 0 .6em}
-.who a{color:var(--ink)}
-.counter{
-  position:fixed;right:var(--gutter);bottom:clamp(20px,4vh,44px);z-index:30;
-  font-size:var(--step-1);font-weight:500;font-variant-numeric:tabular-nums;color:var(--graphite);
-  transition:opacity .4s ease;
-}
-.counter small{display:block;font-size:var(--step--1);font-weight:400}
-
-/* loading state: only the name and the counter show */
-html.loading .bar,html.loading .hero-foot,html.loading main>*:not(.hero){opacity:0}
-html.loading body{overflow:hidden}
-.hero-foot,.bar{transition:opacity .7s ease .25s}
-html:not(.loading) .counter{opacity:0;pointer-events:none}
-
-/* ——— work ——— */
-.work-intro{
-  padding:clamp(80px,14vh,160px) var(--gutter) clamp(40px,8vh,96px);
-  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:24px clamp(24px,5vw,80px);align-items:end;
-  border-top:1px solid var(--rule);
-}
-.work-intro h2{font-size:var(--step-3)}
-.work-intro p{max-width:52ch;color:var(--graphite);margin:0}
-
-.project{
-  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:40px clamp(24px,5vw,80px);
-  padding:clamp(56px,10vh,112px) var(--gutter);border-top:1px solid var(--rule);
-}
-.info{position:sticky;top:clamp(72px,11vh,104px);align-self:start}
-.info h3{font-size:var(--step-3);margin-bottom:.32em}
-.lede{font-size:var(--step-1);line-height:1.3;letter-spacing:-.01em;font-weight:500;max-width:28ch;margin-bottom:1.1em}
-.info .body{max-width:46ch;color:var(--graphite)}
-.info .body strong{color:var(--ink);font-weight:500}
-.facts{margin:1.6em 0 0;display:grid;grid-template-columns:auto 1fr;gap:.5em 1.2em;font-size:var(--step--1);max-width:46ch}
-.facts dt{color:var(--graphite)}
-.facts dd{margin:0}
-
-.media{display:flex;flex-direction:column;gap:clamp(40px,8vh,88px);min-width:0}
-figure{margin:0}
-figcaption{font-size:var(--step--1);color:var(--graphite);margin-top:.8em;max-width:60ch}
-.shot{
-  display:block;width:100%;padding:0;border:1px solid var(--rule);border-radius:6px;overflow:hidden;
-  background:var(--mat);cursor:zoom-in;
-}
-.shot img{width:100%}
-.media.narrow figure{max-width:620px}
-
-/* ——— Gleaner illustration ——— */
-.panel{
-  border:1px solid var(--rule);border-radius:6px;background:var(--mat);padding:clamp(18px,3vw,32px);
-  font-size:var(--step--1);
-}
-.panel h4{margin:0 0 .2em;font-size:var(--step-1);letter-spacing:-.015em;font-weight:700}
-.panel .sub{color:var(--graphite);margin:0 0 1.4em}
-.feed{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
-.feed li{display:grid;grid-template-columns:5.5em minmax(0,1fr) auto;gap:.3em 1em;padding:.9em 0;border-bottom:1px solid var(--rule);align-items:baseline}
-.feed .kind{font-weight:700}
-.feed .item{font-weight:500}
-.feed .diff{grid-column:2/4;color:var(--graphite)}
-.feed del{text-decoration-thickness:1px;color:var(--graphite)}
-.feed ins{text-decoration:none;color:var(--ink);font-weight:500}
-.flag{display:inline-block;background:var(--marker);color:var(--marker-ink);padding:.05em .45em;border-radius:3px;font-weight:500}
-.spark{margin-top:1.4em;display:grid;grid-template-columns:auto 1fr;gap:.4em 1em;align-items:center}
-.spark svg{width:100%;height:56px;overflow:visible}
-.domains{width:100%;border-collapse:collapse}
-.domains th,.domains td{text-align:left;padding:.75em .8em .75em 0;border-bottom:1px solid var(--rule);vertical-align:top}
-.domains th{font-weight:500;color:var(--graphite)}
-.domains td:last-child,.domains th:last-child{padding-right:0}
-.status-blocked{text-decoration:line-through;text-decoration-thickness:1px}
-
-/* ——— about ——— */
-.about{
-  display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px clamp(24px,5vw,80px);
-  padding:clamp(80px,14vh,160px) var(--gutter);border-top:1px solid var(--rule);
-}
-.about h2{font-size:var(--step-3)}
-.about .text{font-size:var(--step-1);line-height:1.4;max-width:36ch}
-.contact{list-style:none;padding:0;margin:1.6em 0 0;display:flex;flex-wrap:wrap;gap:.4em 1.6em;font-size:var(--step-2);font-weight:700;letter-spacing:-.02em}
-footer{padding:28px var(--gutter) 40px;border-top:1px solid var(--rule);color:var(--graphite);font-size:var(--step--1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-
-/* ——— cursor ——— */
-.cursor{
-  position:fixed;left:0;top:0;z-index:50;pointer-events:none;width:12px;height:12px;margin:-6px 0 0 -6px;
-  border-radius:50%;background:var(--ink);display:grid;place-items:center;
-  transition:width .25s ease,height .25s ease,margin .25s ease,background-color .25s ease,opacity .2s ease;
-  opacity:0;
-}
-.cursor span{font-size:.8rem;font-weight:700;color:var(--marker-ink);opacity:0;transition:opacity .2s ease}
-.cursor.on{opacity:1}
-.cursor.open{width:76px;height:76px;margin:-38px 0 0 -38px;background:var(--marker)}
-.cursor.open span{opacity:1}
-html.has-cursor .shot{cursor:none}
-
-/* ——— lightbox ——— */
-dialog.lightbox{
-  width:min(96vw,1600px);max-width:none;max-height:94vh;padding:0;border:0;border-radius:6px;background:var(--mat);
-  overflow:auto;
-}
-dialog.lightbox::backdrop{background:color-mix(in srgb,var(--paper) 82%,transparent);backdrop-filter:blur(4px)}
-dialog.lightbox img{width:100%;height:auto}
-dialog.lightbox .close{
-  position:sticky;top:0;float:right;margin:10px;border:1px solid var(--rule);background:var(--paper);color:var(--ink);
-  font:500 var(--step--1)/1 "Schibsted Grotesk",sans-serif;padding:.6em .9em;border-radius:4px;cursor:pointer;
-}
-::view-transition-old(shot),::view-transition-new(shot){animation-duration:.4s;animation-timing-function:cubic-bezier(.4,0,.2,1)}
-
-/* ——— responsive ——— */
-@media (max-width:860px){
-  .hero-foot,.work-intro,.project,.about{grid-template-columns:minmax(0,1fr)}
-  .info{position:static}
-  .counter{left:var(--gutter);right:auto}
-  .feed li{grid-template-columns:4.6em minmax(0,1fr)}
-  .feed li>:nth-child(3){grid-column:2}
-  .feed .diff{grid-column:2}
-}
-@media (max-width:520px){
-  .bar nav a.opt{display:none}
-  .domains th:nth-child(3),.domains td:nth-child(3){display:none}
-}
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
-  .cursor{display:none}
-}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<a class="skip" href="#work">Skip to work</a>
+<a class="skip" href="#work">Skip to projects</a>
 
 <header class="bar">
   <a class="home" href="#top">Nihar Thampi</a>
   <nav aria-label="Main">
-    <a href="#work">Work</a>
+    <a href="#work">Projects</a>
     <a href="#about">About</a>
     <a class="opt" href="https://github.com/Nihar-Thampi">GitHub</a>
   </nav>
@@ -247,204 +40,49 @@ dialog.lightbox .close{
       <p class="statement">I build software that reads messy things, like receipts, tax law, comment sections, web pages and a technician’s field notes, and turns them into data you can check.</p>
       <div class="who">
         <p>Software developer in Bangalore. 2025 computer science graduate working mostly in Python, with LLMs and machine learning.</p>
-        <p><a href="#work">See the work</a> or <a href="https://github.com/Nihar-Thampi">browse my GitHub</a>.</p>
+        <p><a href="#work">See the projects</a> or <a href="https://github.com/Nihar-Thampi">browse my GitHub</a>.</p>
       </div>
     </div>
   </section>
 
-  <section class="work-intro" id="work" aria-labelledby="work-h">
-    <h2 id="work-h">Five things I’ve built</h2>
-    <p>Each one puts a model where it helps, extracting, drafting or summarising, and wraps it in plain, testable checks so the result can be trusted. Click any screenshot to see it full size.</p>
+  <section class="work" id="work" aria-labelledby="work-h">
+    <div class="work-head">
+      <h2 id="work-h">Projects</h2>
+      <p>Each one puts a model where it helps, extracting, drafting or summarising, and wraps it in plain, testable checks so the result can be trusted. Open one to see how it works and what it’s built with.</p>
+    </div>
+    <ul class="rows">
+      <li><a href="projects/solarops.html" data-preview="img/solarops-dashboard.webp">
+        <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
+        <span class="row-desc">Job tracking for companies that maintain solar installations, with AI that drafts jobs and service reports for people to approve.</span>
+        <span class="row-stack">FastAPI, React, PostgreSQL, Claude API</span>
+        <img class="row-thumb" src="img/solarops-dashboard.webp" width="1568" height="744" loading="lazy" alt="">
+      </a></li>
+      <li><a href="projects/gleaner.html" data-preview="img/gleaner-preview.webp">
+        <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
+        <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls politely.</span>
+        <span class="row-stack">FastAPI, Playwright, React, Claude API</span>
+        <img class="row-thumb" src="img/gleaner-preview.webp" width="1518" height="914" loading="lazy" alt="">
+      </a></li>
+      <li><a href="projects/fairshare.html" data-preview="img/fairshare-review.webp">
+        <span class="row-name" style="view-transition-name:t-fairshare">FairShare</span>
+        <span class="row-desc">Scan an invoice or receipt into line items, track what’s unpaid, and split shared bills item by item.</span>
+        <span class="row-stack">Flask, EasyOCR, OpenAI API, React</span>
+        <img class="row-thumb" src="img/fairshare-review.webp" width="856" height="600" loading="lazy" alt="">
+      </a></li>
+      <li><a href="projects/sa-tax-bot.html" data-preview="img/taxbot-source.webp">
+        <span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span>
+        <span class="row-desc">A chatbot for South Africa’s Income Tax Act that cites the exact passage behind every point it makes.</span>
+        <span class="row-stack">Flask, ChromaDB, Hugging Face, LoRA</span>
+        <img class="row-thumb" src="img/taxbot-source.webp" width="1568" height="744" loading="lazy" alt="">
+      </a></li>
+      <li><a href="projects/yt-analyzer.html" data-preview="img/yt-sentiment.webp">
+        <span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span>
+        <span class="row-desc">Sentiment, summaries and a question-answering chat over a YouTube video’s comments, run on local models.</span>
+        <span class="row-stack">FastAPI, Mistral 7B, FAISS, React</span>
+        <img class="row-thumb" src="img/yt-sentiment.webp" width="1568" height="698" loading="lazy" alt="">
+      </a></li>
+    </ul>
   </section>
-
-  <!-- SolarOps -->
-  <article class="project" aria-labelledby="p-solarops">
-    <div class="info">
-      <h3 id="p-solarops">SolarOps</h3>
-      <p class="lede">Maintenance and job tracking for companies that service solar installations.</p>
-      <div class="body">
-        <p>It follows every job from a customer’s first message to a signed-off service report, which becomes that site’s maintenance record. Recurring services like panel cleaning raise their own jobs when they come due, and technicians are suggested by skill and current workload.</p>
-        <p><strong>AI drafts, people decide.</strong> Claude turns a pasted customer email into a job and a technician’s rough notes into a customer-ready report, but nothing is saved until a person accepts it. If the model call fails, rule-based logic takes over and the log says so.</p>
-        <p><strong>An audit log you can prove.</strong> Database triggers reject edits and deletes, and entries are hash-chained per company, so one click verifies nothing was altered, removed or reordered.</p>
-      </div>
-      <dl class="facts">
-        <dt>Built with</dt><dd>React 19, TypeScript, Tailwind CSS, TanStack Query, FastAPI, SQLAlchemy 2, PostgreSQL or SQLite, the Claude API, pytest</dd>
-        <dt>Code</dt><dd>Private for now</dd>
-      </dl>
-    </div>
-    <div class="media">
-      <figure>
-        <button class="shot" type="button"><img src="img/solarops-dashboard.webp" width="1568" height="744" loading="lazy" alt="SolarOps dashboard: open, unassigned and overdue job counts, a chart of jobs created against completed over 12 weeks, open jobs by status, a table by region and technician workload."></button>
-        <figcaption>The dashboard, filtered to the regions a manager covers. Every chart can also be shown as a table.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/solarops-intake.webp" width="1568" height="744" loading="lazy" alt="AI job intake dialog. A customer message about an inverter error has been drafted into a job with matched client, site, service type and priority, waiting for review."></button>
-        <figcaption>AI intake: a customer’s message becomes a draft job with client, site, service and priority filled in for review.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/solarops-report.webp" width="1568" height="744" loading="lazy" alt="A completed job page with a finalised service report listing work performed, findings and readings, next to client and site details."></button>
-        <figcaption>A finalised service report, drafted from field notes and edited before sign-off. It prints or saves as a PDF.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/solarops-audit.webp" width="1568" height="744" loading="lazy" alt="Audit log page showing a confirmation that all 409 entries match their hash chain, above a filterable list of sign-ins and changes."></button>
-        <figcaption>The audit log after “Verify integrity”: all 409 entries match their hash chain.</figcaption>
-      </figure>
-    </div>
-  </article>
-
-  <!-- Gleaner -->
-  <article class="project" aria-labelledby="p-gleaner">
-    <div class="info">
-      <h3 id="p-gleaner">Gleaner</h3>
-      <p class="lede">A web-scraping platform that tracks every change in the data and tells you when one matters.</p>
-      <div class="body">
-        <p>You build scrapers from CSS selectors with a live preview against the real page, run them on a schedule, and get field-level diffs across runs, value histories and alerts such as “price drops 15% or more”. Checks after every run catch broken selectors, sudden drops in item count and implausible jumps like a pricing error.</p>
-        <p><strong>Built to scrape politely.</strong> It only crawls domains an admin has approved, obeys robots.txt including Crawl-delay, shares one rate limit per site, refuses private network addresses, and names itself honestly in its User-Agent.</p>
-        <p><strong>AI with a test attached.</strong> Describe the fields in plain English and Claude proposes selectors, which are then run against the live page. When a scraper breaks, it first checks whether the page now needs a real browser before suggesting new selectors.</p>
-      </div>
-      <dl class="facts">
-        <dt>Built with</dt><dd>FastAPI, SQLAlchemy 2, Playwright, httpx, parsel and lxml, the Claude API, React 19, TypeScript, Tailwind CSS, Recharts</dd>
-        <dt>Code</dt><dd>Private for now</dd>
-      </dl>
-    </div>
-    <div class="media">
-      <figure>
-        <div class="panel" role="img" aria-label="Illustration of a Gleaner change feed for a practice outdoor store: a price drop that fired an alert, a new item, a stock change, a removal, and a flagged pricing error, with a 30-day price history line.">
-          <h4>Ridgeline Outfitters: prices &amp; stock</h4>
-          <p class="sub">Run 31, complete. 142 items, 5 changes since yesterday.</p>
-          <ul class="feed" aria-hidden="true">
-            <li><span class="kind">Changed</span><span class="item">Summit 35L Pack</span><span class="flag">Alert: price drop</span>
-              <span class="diff">price <del>$189.00</del> <ins>$159.00</ins>, down 15.9%</span></li>
-            <li><span class="kind">New</span><span class="item">Alpine Shell Jacket</span><span></span>
-              <span class="diff">price <ins>$249.00</ins>, stock <ins>In stock</ins></span></li>
-            <li><span class="kind">Changed</span><span class="item">Trail Runner GTX</span><span></span>
-              <span class="diff">stock <del>In stock</del> <ins>Out of stock</ins></span></li>
-            <li><span class="kind">Removed</span><span class="item">Basecamp Enamel Mug</span><span></span>
-              <span class="diff">Recorded because the run was complete</span></li>
-            <li><span class="kind">Check</span><span class="item">Merino Hiking Socks</span><span class="flag">Implausible jump</span>
-              <span class="diff">price <del>$18.00</del> <ins>$180.00</ins>, held for review</span></li>
-          </ul>
-          <div class="spark" aria-hidden="true">
-            <span>Summit 35L Pack, 30 days</span>
-            <svg viewBox="0 0 300 56" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 20,14 40,14 60,18 80,18 100,14 120,14 140,10 160,10 180,14 200,14 220,14 240,18 260,18 280,46 300,46"/></svg>
-          </div>
-        </div>
-        <figcaption>Illustration of the change feed, drawn for this page with sample data shaped like the built-in practice store.</figcaption>
-      </figure>
-      <figure>
-        <div class="panel" role="img" aria-label="Illustration of Gleaner's domain approvals: two approved domains with their rate limits and robots.txt crawl delay, one pending, and one blocked.">
-          <h4>Domains</h4>
-          <p class="sub">Every site needs an approval and a recorded reason before anything is fetched.</p>
-          <table class="domains" aria-hidden="true">
-            <thead><tr><th>Domain</th><th>Status</th><th>Limit</th><th>robots.txt</th></tr></thead>
-            <tbody>
-              <tr><td>books.toscrape.com</td><td>Approved</td><td>1 request / 2 s</td><td>Allows all</td></tr>
-              <tr><td>scrapethissite.com</td><td>Approved</td><td>1 request / 3 s</td><td>Crawl-delay 3 s</td></tr>
-              <tr><td>shop.example.net</td><td>Pending</td><td>None yet</td><td>Not read yet</td></tr>
-              <tr><td class="status-blocked">10.0.0.12</td><td>Blocked</td><td>None</td><td>Private address</td></tr>
-            </tbody>
-          </table>
-        </div>
-        <figcaption>Illustration of the domain policy. Rules are checked again on every redirect hop.</figcaption>
-      </figure>
-    </div>
-  </article>
-
-  <!-- FairShare -->
-  <article class="project" aria-labelledby="p-fairshare">
-    <div class="info">
-      <h3 id="p-fairshare">FairShare</h3>
-      <p class="lede">Photograph a receipt, get the line items, split the bill item by item.</p>
-      <div class="body">
-        <p>EasyOCR reads the image and GPT-4o mini turns the text into vendor, dates, currency and line items. A tilted photo is skew-corrected before rows are grouped, so items stay paired with their prices.</p>
-        <p><strong>The model is a first pass, not the answer.</strong> A deterministic cleanup pipeline fixes the failures I kept seeing, such as the rupee sign read as a “2”, item names split across lines and impossible quantities. The extracted items are then checked against the printed total.</p>
-        <p><strong>Totals that add up.</strong> Items split equally, by percentage or by custom amount, tax is shared evenly, and a final rounding pass makes everyone’s share add up exactly to the bill.</p>
-      </div>
-      <dl class="facts">
-        <dt>Built with</dt><dd>Flask, EasyOCR, OpenAI API, SQLite, JWT auth, React, TypeScript, Mantine, Zustand</dd>
-        <dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/FairShare">github.com/Nihar-Thampi/FairShare</a></dd>
-      </dl>
-    </div>
-    <div class="media narrow">
-      <figure>
-        <button class="shot" type="button"><img src="img/fairshare-upload.webp" width="856" height="744" loading="lazy" alt="FairShare upload step with a receipt image being read by OCR."></button>
-        <figcaption>Upload a photo or scan. Multi-page receipts work too.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/fairshare-review.webp" width="856" height="600" loading="lazy" alt="Review table of extracted items from a restaurant bill, with two GST lines highlighted and marked as tax."></button>
-        <figcaption>Extracted items, editable cell by cell. Tax lines are detected and marked.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/fairshare-assign.webp" width="856" height="744" loading="lazy" alt="Assign step where each line item is given to one or more people."></button>
-        <figcaption>Each item goes to one or more people.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/fairshare-results.webp" width="856" height="680" loading="lazy" alt="Results showing three people's shares with item breakdowns, adding up to a grand total of $3218.26."></button>
-        <figcaption>Three shares, each with its item breakdown, adding up to the grand total to the cent.</figcaption>
-      </figure>
-    </div>
-  </article>
-
-  <!-- SA Tax Bot -->
-  <article class="project" aria-labelledby="p-taxbot">
-    <div class="info">
-      <h3 id="p-taxbot">SA Tax Bot</h3>
-      <p class="lede">Ask South Africa’s Income Tax Act a question and see the passage behind the answer.</p>
-      <div class="body">
-        <p>Answers come from retrieval over a vector index of the Act, and every claim carries a citation that opens the exact lines it came from. A second mode swaps retrieval for a local model fine-tuned on the Act with LoRA.</p>
-        <p><strong>The full pipeline, offline.</strong> Scripts OCR the scanned Act, build the index and instruction-tuning data, train the adapter, and scan a bank statement for transactions that look like deductions.</p>
-        <p>It’s informational only, not tax advice, and the interface says so.</p>
-      </div>
-      <dl class="facts">
-        <dt>Built with</dt><dd>Flask, ChromaDB, Hugging Face Transformers, LoRA fine-tuning, Tesseract, PyMuPDF, React, TypeScript, Mantine</dd>
-        <dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/Tax-Bot">github.com/Nihar-Thampi/Tax-Bot</a></dd>
-      </dl>
-    </div>
-    <div class="media">
-      <figure>
-        <button class="shot" type="button"><img src="img/taxbot-answer.webp" width="1568" height="744" loading="lazy" alt="Chat answer listing deductible trade expenses under Section 11 of the Act, each point followed by a citation."></button>
-        <figcaption>An answer about trade deductions, with a citation on every point.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/taxbot-source.webp" width="1568" height="744" loading="lazy" alt="The same answer with one citation opened, showing the source passage from Section 11 with line numbers and gazette page."></button>
-        <figcaption>Opening a citation shows the source passage, with its line numbers in the Act.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/taxbot-history.webp" width="1568" height="744" loading="lazy" alt="The chat interface with a sidebar of saved conversations."></button>
-        <figcaption>Saved conversations, kept in the browser.</figcaption>
-      </figure>
-    </div>
-  </article>
-
-  <!-- YT Analyzer -->
-  <article class="project" aria-labelledby="p-yt">
-    <div class="info">
-      <h3 id="p-yt">YT Analyzer</h3>
-      <p class="lede">What a video’s comment section actually thinks, for the person who made it.</p>
-      <div class="body">
-        <p>It pulls up to 500 comments through the YouTube Data API and runs them through a local pipeline: SieBERT for sentiment, PEGASUS for a summary, and Mistral 7B for sarcasm detection that uses the video’s own description as context.</p>
-        <p><strong>Ask the comments.</strong> A chat grounded in the comments themselves, retrieved with FAISS, answers questions like “what do viewers say about learning to code with AI?” and turns the feedback into suggestions for the creator.</p>
-      </div>
-      <dl class="facts">
-        <dt>Built with</dt><dd>FastAPI, SQLAlchemy, Hugging Face Transformers, Mistral 7B Instruct, FAISS, sentence-transformers, React, Recharts</dd>
-        <dt>Code</dt><dd><a href="https://github.com/Nihar-Thampi/YT-analyzer">github.com/Nihar-Thampi/YT-analyzer</a></dd>
-      </dl>
-    </div>
-    <div class="media">
-      <figure>
-        <button class="shot" type="button"><img src="img/yt-sentiment.webp" width="1568" height="698" loading="lazy" alt="Sentiment dashboard for a video: a pie chart of positive and negative comments and a chart comparing comment sentiment with the transcript's tone."></button>
-        <figcaption>Comment sentiment, compared with the tone of the video’s own transcript.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/yt-summary.webp" width="1568" height="698" loading="lazy" alt="Summary tab with a paragraph summarising the comments, a sarcasm estimate and recommendations for the creator."></button>
-        <figcaption>Hundreds of comments condensed to one paragraph, with recommendations for the creator.</figcaption>
-      </figure>
-      <figure>
-        <button class="shot" type="button"><img src="img/yt-chat.webp" width="1568" height="698" loading="lazy" alt="Chat tab answering a question about what viewers say about learning to code with AI tools."></button>
-        <figcaption>Chat answers grounded in the retrieved comments.</figcaption>
-      </figure>
-    </div>
-  </article>
 
   <section class="about" id="about" aria-labelledby="about-h">
     <h2 id="about-h">About</h2>
@@ -464,127 +102,10 @@ dialog.lightbox .close{
   <a href="#top">Back to top</a>
 </footer>
 
-<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
-  <form method="dialog"><button class="close" type="submit">Close</button></form>
-  <img id="lightbox-img" alt="">
-</dialog>
-
+<div class="preview" aria-hidden="true"><img alt=""></div>
 <div class="cursor" aria-hidden="true"><span>Open</span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script>
-(function(){
-  var doc = document.documentElement;
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia('(pointer: fine)').matches;
-
-  /* ——— intro: the name resolves from OCR-style noise as the images load ——— */
-  var name = document.getElementById('name');
-  var lines = Array.prototype.slice.call(name.querySelectorAll('.line'));
-  var counter = document.getElementById('count');
-
-  function finish(){
-    lines.forEach(function(l){ l.textContent = l.dataset.text; });
-    doc.classList.remove('loading');
-    requestAnimationFrame(function(){ name.classList.add('marked'); });
-  }
-
-  if (reduce) { finish(); }
-  else {
-    doc.classList.add('loading');
-    var noise = 'Nn1lI|!hH4AarR7TtJmMpP0O8B:;.,_-';
-    var slots = [];
-    lines.forEach(function(l){
-      var t = l.dataset.text; l.textContent = '';
-      for (var i=0;i<t.length;i++){
-        var s = document.createElement('span'); s.className = 'ch noise'; s.textContent = t[i];
-        l.appendChild(s); slots.push({el:s, ch:t[i]});
-      }
-    });
-
-    var srcs = Array.prototype.map.call(document.querySelectorAll('.shot img'), function(i){ return i.getAttribute('src'); });
-    var loaded = 0;
-    srcs.forEach(function(src){
-      var im = new Image();
-      im.onload = im.onerror = function(){ loaded++; };
-      im.src = src;
-    });
-
-    var start = performance.now(), MIN = 1300, MAX = 3200, shown = 0, done = false;
-    (function tick(now){
-      if (done) return;
-      var el = now - start;
-      var real = srcs.length ? loaded / srcs.length : 1;
-      var target = Math.min(real, el / MIN);
-      if (el > MAX) target = 1;
-      shown += (target * 100 - shown) * 0.12;
-      if (target === 1 && shown > 99.4) shown = 100;
-      counter.textContent = Math.round(shown);
-      var resolved = Math.floor(shown / 100 * slots.length);
-      slots.forEach(function(s, i){
-        if (i < resolved) { if (s.el.classList.contains('noise')) { s.el.classList.remove('noise'); s.el.textContent = s.ch; } }
-        else if (Math.random() < .35) { s.el.textContent = noise[(Math.random()*noise.length)|0]; }
-      });
-      if (shown >= 100) { done = true; setTimeout(finish, 120); return; }
-      requestAnimationFrame(tick);
-    })(start);
-  }
-
-  /* ——— smooth scroll ——— */
-  var lenis = null;
-  if (!reduce && window.Lenis) {
-    lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
-    (function raf(t){ lenis.raf(t); requestAnimationFrame(raf); })(performance.now());
-    document.querySelectorAll('a[href^="#"]').forEach(function(a){
-      a.addEventListener('click', function(e){
-        var id = a.getAttribute('href'); var target = id === '#top' ? 0 : document.querySelector(id);
-        if (target === null) return;
-        e.preventDefault(); lenis.scrollTo(target, { offset: id === '#top' ? 0 : -60 });
-        if (id !== '#top') history.replaceState(null, '', id);
-      });
-    });
-  }
-
-  /* ——— cursor: a marker dot that opens over screenshots ——— */
-  if (fine && !reduce) {
-    var c = document.querySelector('.cursor'); doc.classList.add('has-cursor');
-    var x = -100, y = -100, cx = -100, cy = -100;
-    window.addEventListener('pointermove', function(e){ x = e.clientX; y = e.clientY; c.classList.add('on'); }, {passive:true});
-    document.addEventListener('pointerleave', function(){ c.classList.remove('on'); });
-    document.addEventListener('pointerover', function(e){ c.classList.toggle('open', !!e.target.closest('.shot')); });
-    (function loop(){
-      cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
-      c.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-      requestAnimationFrame(loop);
-    })();
-  }
-
-  /* ——— lightbox, with a shared-element transition where supported ——— */
-  var dlg = document.getElementById('lightbox'), big = document.getElementById('lightbox-img'), from = null;
-  function vt(fn){ if (document.startViewTransition && !reduce) document.startViewTransition(fn); else fn(); }
-  document.querySelectorAll('.shot').forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var img = btn.querySelector('img'); from = img;
-      img.style.viewTransitionName = 'shot';
-      vt(function(){
-        img.style.viewTransitionName = '';
-        big.src = img.currentSrc || img.src; big.alt = img.alt; big.style.viewTransitionName = 'shot';
-        dlg.showModal(); if (lenis) lenis.stop();
-      });
-    });
-  });
-  dlg.addEventListener('click', function(e){ if (e.target === dlg) dlg.close(); });
-  dlg.addEventListener('cancel', function(e){ e.preventDefault(); closeBox(); });
-  dlg.querySelector('form').addEventListener('submit', function(e){ e.preventDefault(); closeBox(); });
-  function closeBox(){
-    vt(function(){
-      big.style.viewTransitionName = ''; dlg.close();
-      if (from) from.style.viewTransitionName = 'shot';
-    });
-    setTimeout(function(){ if (from) from.style.viewTransitionName = ''; }, 500);
-  }
-  dlg.addEventListener('close', function(){ if (lenis) lenis.start(); if (from) from.closest('.shot').focus({preventScroll:true}); });
-})();
-</script>
+<script src="assets/site.js"></script>
 </body>
 </html>
