@@ -55,8 +55,8 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
         <span class="row-media"><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
-          <span class="row-desc">Job tracking for companies that maintain solar installations. Claude drafts jobs from customer emails and service reports from field notes, and a person approves each one.</span>
-          <span class="row-stack">FastAPI, React 19, PostgreSQL, Claude API</span>
+          <span class="row-desc">Job tracking for companies that maintain solar installations. A local LLM drafts jobs from customer emails and service reports from field notes, and a person approves each one.</span>
+          <span class="row-stack">FastAPI, React 19, PostgreSQL, local LLM via Ollama</span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
@@ -65,7 +65,7 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
           <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls approved sites politely.</span>
-          <span class="row-stack">FastAPI, Playwright, React 19, Claude API</span>
+          <span class="row-stack">FastAPI, Playwright, React 19, local LLM via Ollama</span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>

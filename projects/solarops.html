@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SolarOps, Nihar Thampi</title>
-<meta name="description" content="SolarOps: multi-tenant maintenance and job tracking for solar O&amp;M companies, with Claude drafting jobs, service reports and feedback insights for people to approve.">
+<meta name="description" content="SolarOps: multi-tenant maintenance and job tracking for solar O&amp;M companies, with a local LLM drafting jobs, service reports and feedback insights for people to approve.">
 <meta property="og:image" content="../img/solarops-dashboard.webp">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,8 +27,8 @@
     <p class="lede">Maintenance and job tracking for companies that service solar installations, with AI built into the daily work.</p>
     <dl class="meta">
       <div><dt>What it is</dt><dd>Multi-tenant web app</dd></div>
-      <div><dt>Built with</dt><dd>FastAPI, React 19, PostgreSQL, Claude API</dd></div>
-      <div><dt>Runs with</dt><dd>Docker Compose, seeded with demo companies</dd></div>
+      <div><dt>Built with</dt><dd>FastAPI, React 19, PostgreSQL, local LLM via Ollama</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose and Ollama, seeded with demo companies</dd></div>
       <div><dt>Code</dt><dd>Private for now</dd></div>
     </dl>
   </section>
@@ -53,7 +53,7 @@
     <h2 id="s-how">How a job moves through it</h2>
     <div class="sec-body">
       <ol class="flow">
-        <li><h3>A request comes in</h3><p>A manager pastes the customer’s email, text or call notes into AI intake. Claude drafts the job: service type, priority, the matching client and site, and contact details. Nothing is created until the manager reviews it and clicks Create job.</p></li>
+        <li><h3>A request comes in</h3><p>A manager pastes the customer’s email, text or call notes into AI intake. The local model drafts the job: service type, priority, the matching client and site, and contact details. Nothing is created until the manager reviews it and clicks Create job.</p></li>
         <li><h3>Someone is assigned</h3><p>Suggested technicians are ranked by matching skills and how much open work they already have. A job can also stay unassigned for technicians in that region to pick up.</p></li>
         <li><h3>The work happens</h3><p>The job moves from new to scheduled, in progress, on hold and completed, with an activity timeline of every change and note.</p></li>
         <li><h3>The technician writes it up</h3><p>Rough field notes, written the way you would on site, plus optional readings, become a customer-ready report with a summary, work performed, findings and recommendations. The technician edits it and finalises it, and it prints or saves as a PDF.</p></li>
@@ -157,8 +157,8 @@
           <tr><th scope="row">API</th><td>FastAPI, Pydantic v2</td><td>The REST API, with request and response validation</td></tr>
           <tr><th scope="row">Data</th><td>SQLAlchemy 2, PostgreSQL or SQLite</td><td>SQLite by default, PostgreSQL through one setting. Triggers keep the audit log append-only.</td></tr>
           <tr><th scope="row">Access control</th><td>JWT, bcrypt</td><td>Sign-in, with company and region scoping applied in one shared dependency on every query</td></tr>
-          <tr><th scope="row">AI</th><td>Claude API</td><td>Structured JSON outputs for intake, reports and insights, with a rule-based fallback</td></tr>
-          <tr><th scope="row">Tests</th><td>pytest</td><td>Company and region isolation, permissions, the job lifecycle and the AI fallback</td></tr>
+          <tr><th scope="row">AI</th><td>Ollama, Qwen2.5 14B</td><td>A local model for intake, reports and insights, with output held to each feature’s JSON schema and a rule-based fallback</td></tr>
+          <tr><th scope="row">Tests</th><td>pytest</td><td>Company and region isolation, permissions, the job lifecycle, the local model client and the AI fallback</td></tr>
           <tr><th scope="row">Running it</th><td>Docker Compose</td><td>One command starts it and seeds two demo companies with accounts for every role</td></tr>
         </tbody>
       </table>
@@ -169,7 +169,8 @@
     <h2 id="s-dec">Decisions and trade-offs</h2>
     <div class="sec-body decisions">
       <div><h3>AI output is always a draft</h3><p>The model never changes data on its own. Whatever it produces is shown to a person, who accepts or edits it. Any ID the model picks, such as which client a message is about, is checked against what that user is allowed to see before it’s used.</p></div>
-      <div><h3>It still works when the model doesn’t</h3><p>If the Claude call fails or no API key is set, each feature falls back to rule-based logic. The top bar shows which mode is active, and the AI log records every fallback.</p></div>
+      <div><h3>A local model, held to a schema</h3><p>The AI runs on Qwen2.5 through Ollama on the same machine, so customer messages and site details never leave it and there’s no cost per call. Constrained decoding means the model can only return JSON in the shape each feature expects, and the context window is set explicitly so long prompts, like the full client list for intake, are never silently cut.</p></div>
+      <div><h3>It still works when the model doesn’t</h3><p>If Ollama isn’t running, the model isn’t downloaded or a call fails, each feature falls back to rule-based logic. The top bar shows which mode is active, and the AI log records every fallback.</p></div>
       <div><h3>Scoping in one place</h3><p>Company and region filtering happens in a single dependency that every route uses, so a new endpoint can’t forget it. Tests sign in as each role and as a second company to prove the isolation holds.</p></div>
       <div><h3>An audit log you can prove</h3><p>Database triggers reject edits and deletes, and each entry stores a hash of the one before it. Verifying the chain shows that nothing was altered, removed or reordered. Even viewing and exporting the log is logged.</p></div>
     </div>

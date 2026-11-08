@@ -27,8 +27,8 @@
     <p class="lede">A web-scraping platform that tracks every change in the data and tells you when one matters.</p>
     <dl class="meta">
       <div><dt>What it is</dt><dd>Scraping and monitoring platform</dd></div>
-      <div><dt>Built with</dt><dd>FastAPI, Playwright, React 19, Claude API</dd></div>
-      <div><dt>Runs with</dt><dd>Docker Compose, with six demo scrapers</dd></div>
+      <div><dt>Built with</dt><dd>FastAPI, Playwright, React 19, local LLM via Ollama</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose and Ollama, with six demo scrapers</dd></div>
       <div><dt>Code</dt><dd>Private for now</dd></div>
     </dl>
   </section>
@@ -73,11 +73,11 @@
     <div class="sec-body">
       <ol class="flow">
         <li><h3>A domain is approved</h3><p>Before anything is fetched, an admin approves the domain, records why scraping it is acceptable, and sets a rate limit. Every scraper on that site shares the limit.</p></li>
-        <li><h3>A scraper is built</h3><p>CSS selectors define the items, fields, pagination and detail pages, with a live preview against the real page. Or describe the fields in plain English and let Claude propose the selectors.</p></li>
+        <li><h3>A scraper is built</h3><p>CSS selectors define the items, fields, pagination and detail pages, with a live preview against the real page. Or describe the fields in plain English and let the local model propose the selectors.</p></li>
         <li><h3>Pages are fetched politely</h3><p>Static pages come through httpx, and JavaScript-heavy ones through headless Chromium with Playwright. robots.txt is read first and its Crawl-delay applied. Failed requests retry with exponential backoff and honour Retry-After, and every redirect hop is checked against policy again.</p></li>
         <li><h3>Fields are extracted and cleaned</h3><p>Each field has a type: text, number, price, URL, yes/no or list. Prices handle currencies and thousands separators, and optional regexes and value maps tidy the rest.</p></li>
         <li><h3>Items are compared with the last run</h3><p>Items are matched across runs by key fields, and each one is recorded as new, changed, removed or returning, with field-level diffs and a value history. A scraper’s first run only sets the baseline.</p></li>
-        <li><h3>The run is checked</h3><p>Quality checks look at fill rate per field, rejected rows, broken selectors, drops in item count, implausible jumps and mass removals. Alerts fire, and Claude writes a plain-English summary of what changed.</p></li>
+        <li><h3>The run is checked</h3><p>Quality checks look at fill rate per field, rejected rows, broken selectors, drops in item count, implausible jumps and mass removals. Alerts fire, and the local model writes a plain-English summary of what changed.</p></li>
         <li><h3>The data goes where it’s needed</h3><p>CSV, Excel and JSON exports, a read API with API keys, and HMAC-signed webhooks when a run finishes or an alert fires.</p></li>
       </ol>
     </div>
@@ -166,10 +166,10 @@
           <tr><th scope="row">Parsing</th><td>parsel, lxml</td><td>CSS selector extraction</td></tr>
           <tr><th scope="row">Exports</th><td>openpyxl</td><td>Excel exports, alongside CSV and JSON</td></tr>
           <tr><th scope="row">Scheduling</th><td>Built-in worker</td><td>Runs on a background thread in the API, or as its own process to scale separately</td></tr>
-          <tr><th scope="row">AI</th><td>Claude API</td><td>Selector suggestions, repairs and run summaries, with an offline demo mode</td></tr>
+          <tr><th scope="row">AI</th><td>Ollama, Qwen2.5 14B</td><td>Selector suggestions, repairs and run summaries from a local model, with output held to a JSON schema and an offline demo mode</td></tr>
           <tr><th scope="row">Frontend</th><td>React 19, TypeScript, Vite, Tailwind CSS v4</td><td>The scraper builder, run views and dashboards</td></tr>
           <tr><th scope="row">Frontend data</th><td>TanStack Query, Recharts</td><td>Server state, and value-history charts</td></tr>
-          <tr><th scope="row">Tests</th><td>pytest</td><td>29 tests covering the crawl pipeline, robots.txt, domain policy, SSRF, change tracking, alerts, roles, exports, API keys and webhook signatures</td></tr>
+          <tr><th scope="row">Tests</th><td>pytest</td><td>33 tests covering the crawl pipeline, robots.txt, domain policy, SSRF, change tracking, alerts, roles, exports, API keys, webhook signatures and the local model client</td></tr>
         </tbody>
       </table>
     </div>
@@ -180,6 +180,7 @@
     <div class="sec-body decisions">
       <div><h3>Politeness is in the core, not a setting</h3><p>Domain approval, robots.txt, shared rate limits and address checks sit in the fetch path every request goes through, so no scraper can skip them. When robots.txt can’t be read, the safe answer is to wait.</p></div>
       <div><h3>AI suggestions come with a test</h3><p>A proposed selector is only useful if it extracts something. The assistant’s output is run by the real extractor against the live page, and gets one chance to correct fields that come back empty.</p></div>
+      <div><h3>A local model is enough when its work is checked</h3><p>Selector suggestions, repairs and summaries run on Qwen2.5 through Ollama, with no cost per call. Because every suggested selector is tested on the real page, a smaller local model is safe to use: when it gets a field wrong, the fill rate shows it instead of bad data slipping into a scraper. The context window is set large enough for a whole simplified page of HTML.</p></div>
       <div><h3>Don’t cry wolf</h3><p>A first run is a baseline rather than 142 “new item” alerts, and removals only count on complete runs. Feeds and alerts stay worth reading.</p></div>
       <div><h3>Demo history through real code</h3><p>The practice store’s 30 days of history go through the same extractor and ingest path as live runs, so the demo exercises the real system rather than seeded rows.</p></div>
     </div>
