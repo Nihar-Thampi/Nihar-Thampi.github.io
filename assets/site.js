@@ -141,38 +141,51 @@
       dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '4'); dot.style.opacity = '0'; svg.appendChild(dot);
       mark(current);
     };
-    var travel = function(path, ms, done){
+    // Each run gets a token; starting a new one (a click) cancels whatever is still animating.
+    var run = 0;
+    var travel = function(path, ms, token, done){
+      if (!path || !dot) { done(); return; }
       var len = path.getTotalLength(), t0 = performance.now();
       dot.style.opacity = '1';
       (function step(now){
+        if (token !== run) return;
         var k = Math.min(1, (now - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
         var pt = path.getPointAtLength(len * e);
         dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
         if (k < 1) requestAnimationFrame(step); else { dot.style.opacity = '0'; done(); }
       })(t0);
     };
-    var go = function(i){
+    var hit = function(){ node.classList.remove('hit'); void node.offsetWidth; node.classList.add('hit'); };
+    // now = true (a click): the answer shows at once and the pulse only decorates it.
+    // now = false (the auto cycle): the pulse carries the input through before the answer appears.
+    var go = function(i, now){
+      var token = ++run;
       current = i; mark(i);
-      if (reduce || !paths[i]) { render(i, false); return; }
+      if (dot) dot.style.opacity = '0';
+      if (reduce || !paths[i]) { render(i, false); busy = false; return; }
+      if (now) {
+        render(i, true); hit(); busy = false;
+        travel(paths[i], 450, token, function(){});
+        return;
+      }
       busy = true;
-      travel(paths[i], 750, function(){
-        node.classList.remove('hit'); void node.offsetWidth; node.classList.add('hit');
-        modelEl.textContent = STEPS[i].model;
-        travel(outPath, 380, function(){ render(i, true); busy = false; });
+      travel(paths[i], 750, token, function(){
+        hit(); modelEl.textContent = STEPS[i].model;
+        travel(outPath, 380, token, function(){ render(i, true); busy = false; });
       });
     };
     var schedule = function(){
       clearTimeout(timer);
       if (paused) return;
       timer = setTimeout(function(){
-        if (!paused && visible && !document.hidden && !busy) go((current + 1) % STEPS.length);
+        if (!paused && visible && !document.hidden && !busy) go((current + 1) % STEPS.length, false);
         schedule();
       }, 3800);
     };
     var setPaused = function(p){
       paused = p; pauseBtn.textContent = p ? 'Play' : 'Pause'; pauseBtn.setAttribute('aria-pressed', p ? 'true' : 'false'); schedule();
     };
-    chips.forEach(function(c, j){ c.addEventListener('click', function(){ setPaused(true); if (!busy) go(j); }); });
+    chips.forEach(function(c, j){ c.addEventListener('click', function(){ setPaused(true); go(j, true); }); });
     pauseBtn.addEventListener('click', function(){ setPaused(!paused); });
     if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }).observe(flow);
     if ('ResizeObserver' in window) new ResizeObserver(function(){ draw(); }).observe(flow);
