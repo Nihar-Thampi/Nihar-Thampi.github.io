@@ -13,7 +13,7 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -33,18 +33,45 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
 
 <main id="top">
   <section class="hero">
-    <h1 class="name" id="name" aria-label="Nihar Thampi">
-      <span class="line" aria-hidden="true" data-text="Nihar">Nihar</span>
-      <span class="line" aria-hidden="true" data-text="Thampi">Thampi</span>
-    </h1>
-    <div class="hero-foot">
-      <p class="statement">I build software that reads messy things, like receipts, tax law, comment sections, web pages and a technician’s field notes, and turns them into data you can check.</p>
-      <div class="who">
-        <p>Software engineer in Bangalore with 1.5+ years building backend services, data pipelines and LLM applications for fintech, healthcare and security clients.</p>
+    <div class="hero-main">
+      <h1 class="name" id="name" aria-label="Nihar Thampi">
+        <span class="line" aria-hidden="true" data-text="Nihar">Nihar</span>
+        <span class="line" aria-hidden="true" data-text="Thampi">Thampi</span>
+      </h1>
+      <div class="hero-foot">
+        <p class="statement">I build software that reads messy things, like receipts, tax law, comment sections, web pages and a technician’s field notes, and turns them into data you can check.</p>
+        <p class="who">Software engineer in Bangalore with 1.5+ years building backend services, data pipelines and LLM applications for fintech, healthcare and security clients.</p>
         <p class="avail">Open to software and AI engineering roles.</p>
-        <p><a href="#work">See the projects</a>, <a href="Nihar_Thampi_resume.pdf">download my résumé</a> or <a href="mailto:thampi.nihar@gmail.com">email me</a>.</p>
+        <div class="actions">
+          <a class="btn" href="#work">See the projects</a>
+          <a class="btn btn-ghost" href="Nihar_Thampi_resume.pdf">Download résumé</a>
+        </div>
       </div>
     </div>
+
+    <figure class="pipeline" id="flow" aria-labelledby="flow-title">
+      <div class="flow-top">
+        <p class="flow-title" id="flow-title">One input from each project, and what comes out</p>
+        <button class="flow-pause" type="button" aria-pressed="false">Pause</button>
+      </div>
+      <div class="flow-in" role="group" aria-label="Choose an input">
+        <button type="button" class="chip" data-i="0" aria-pressed="true">a receipt photo</button>
+        <button type="button" class="chip" data-i="1" aria-pressed="false">the Income Tax Act</button>
+        <button type="button" class="chip" data-i="2" aria-pressed="false">840 YouTube comments</button>
+        <button type="button" class="chip" data-i="3" aria-pressed="false">a product page’s HTML</button>
+        <button type="button" class="chip" data-i="4" aria-pressed="false">a technician’s notes</button>
+      </div>
+      <svg class="flow-wires" aria-hidden="true"></svg>
+      <div class="flow-node" aria-hidden="true">
+        <span class="node-model">gpt-4o-mini</span>
+        <span class="node-plus">+ deterministic checks</span>
+      </div>
+      <div class="flow-out" aria-live="polite">
+        <p class="flow-file">fairshare / extract.json</p>
+        <pre class="flow-json"><code></code></pre>
+        <p class="flow-check"></p>
+      </div>
+    </figure>
   </section>
 
   <section class="work" id="work" aria-labelledby="work-h">
@@ -54,47 +81,47 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
     </div>
     <ul class="rows">
       <li><a href="projects/solarops.html">
-        <span class="row-media"><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
+        <span class="row-media"><span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8082 / dashboard</span></span><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
           <span class="row-desc">Job tracking for companies that maintain solar installations. A local LLM drafts jobs from customer emails and service reports from field notes, and a person approves each one.</span>
-          <span class="row-stack">FastAPI, React 19, PostgreSQL, local LLM via Ollama</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/react.svg" alt="" width="16" height="16">React 19</span><span class="tool"><img src="assets/icons/postgres.svg" alt="" width="16" height="16">PostgreSQL</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/gleaner.html">
-        <span class="row-media"><img src="img/gleaner-preview.webp" width="1518" height="914" alt="Illustration of Gleaner’s change feed: a price drop alert, a new item, a stock change, a removal and a flagged pricing error."></span>
+        <span class="row-media"><span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8080 / changes</span></span><img src="img/gleaner-preview.webp" width="1518" height="914" alt="Illustration of Gleaner’s change feed: a price drop alert, a new item, a stock change, a removal and a flagged pricing error."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
           <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls approved sites politely.</span>
-          <span class="row-stack">FastAPI, Playwright, React 19, local LLM via Ollama</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/playwright.svg" alt="" width="16" height="16">Playwright</span><span class="tool"><img src="assets/icons/react.svg" alt="" width="16" height="16">React 19</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/fairshare.html">
-        <span class="row-media"><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with GST lines marked as tax."></span>
+        <span class="row-media"><span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8083 / bills / review</span></span><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with GST lines marked as tax."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-fairshare">FairShare</span>
           <span class="row-desc">Photograph an invoice or receipt and OCR plus an LLM pull out every line item. Track what’s unpaid, and split shared bills item by item, exact to the cent.</span>
-          <span class="row-stack">Flask, EasyOCR, OpenAI API, React</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool">EasyOCR</span><span class="tool"><img src="assets/icons/openai.svg" alt="" class="ic-ink" width="16" height="16">OpenAI API</span><span class="tool"><img src="assets/icons/react.svg" alt="" width="16" height="16">React</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/sa-tax-bot.html">
-        <span class="row-media"><img src="img/taxbot-source.webp" width="1568" height="744" alt="SA Tax Bot answer with a citation opened to the source passage in Section 11 of the Act."></span>
+        <span class="row-media"><span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8081 / chat</span></span><img src="img/taxbot-source.webp" width="1568" height="744" alt="SA Tax Bot answer with a citation opened to the source passage in Section 11 of the Act."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span>
           <span class="row-desc">A chatbot for South Africa’s Income Tax Act. A local model answers from retrieved passages, and every point links to the exact lines it came from.</span>
-          <span class="row-stack">Flask, ChromaDB, Hugging Face Transformers, LoRA</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool"><img src="assets/icons/chroma.svg" alt="" width="16" height="16">ChromaDB</span><span class="tool"><img src="assets/icons/hugging-face.svg" alt="" width="16" height="16">Hugging Face</span><span class="tool">LoRA</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/yt-analyzer.html">
-        <span class="row-media"><img src="img/yt-sentiment.webp" width="1568" height="698" alt="YT Analyzer sentiment charts comparing comment sentiment with the video transcript’s tone."></span>
+        <span class="row-media"><span class="frame-bar" aria-hidden="true"><i></i><i></i><i></i><span>localhost:8084 / overview</span></span><img src="img/yt-sentiment.webp" width="1568" height="698" alt="YT Analyzer sentiment charts comparing comment sentiment with the video transcript’s tone."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span>
           <span class="row-desc">What a video’s comment section actually thinks: sentiment, summaries, advice for the creator and a chat over the comments, all on local models.</span>
-          <span class="row-stack">FastAPI, Mistral 7B, FAISS, React</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool">Mistral 7B</span><span class="tool">FAISS</span><span class="tool"><img src="assets/icons/react.svg" alt="" width="16" height="16">React</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
@@ -105,6 +132,10 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
     <div class="work-head">
       <h2 id="exp-h">Experience</h2>
       <p>Backend, data and AI work for clients in fintech, healthcare and security, from an internship to independent consulting.</p>
+    </div>
+    <div class="impact">
+      <div><p class="impact-num">~1 hr <span>to</span> &lt;5 min</p><p>Therapist report analysis at Fischer Jordan, after LLM-based behavioural analysis and query routing.</p></div>
+      <div><p class="impact-num">4–5 days <span>to</span> 1–2 hrs</p><p>Data-entry turnaround at Fischer Jordan, after scraping and LLM extraction pipelines.</p></div>
     </div>
     <ol class="exp-list">
       <li>
@@ -174,14 +205,14 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
       <h2 id="skills-h">Skills</h2>
       <p>What I use at work and in the projects above.</p>
     </div>
-    <dl class="skill-groups">
-      <div><dt>Languages</dt><dd>Python, SQL, TypeScript, C#</dd></div>
-      <div><dt>Backend</dt><dd>FastAPI, Flask, .NET 9, REST and GraphQL, JWT and OAuth2, role-based access, PostgreSQL, MySQL, SQLite</dd></div>
-      <div><dt>AI and ML</dt><dd>PyTorch, TensorFlow, Hugging Face Transformers, LLMs, RAG, LoRA and PEFT fine-tuning, prompt engineering, NLP, OpenCV, EasyOCR, FAISS, ChromaDB, Ollama, OpenAI and Gemini APIs</dd></div>
-      <div><dt>Data</dt><dd>Pandas, NumPy, Matplotlib, Power BI, ETL pipelines, data modelling, Selenium, BeautifulSoup</dd></div>
-      <div><dt>Frontend</dt><dd>React, TypeScript, Vite, Tailwind CSS, Flutter</dd></div>
-      <div><dt>Cloud and tools</dt><dd>AWS (EC2, Lambda, EventBridge), Azure, Docker, Git, Linux</dd></div>
-    </dl>
+    <div class="skill-groups">
+      <div class="skill-group"><h3>Languages</h3><ul><li class="tile"><img src="assets/icons/python.svg" alt="" width="22" height="22"><span>Python</span></li><li class="tile"><img src="assets/icons/sql.svg" alt="" width="22" height="22"><span>SQL</span></li><li class="tile"><img src="assets/icons/typescript.svg" alt="" width="22" height="22"><span>TypeScript</span></li><li class="tile tile-text"><span>C#</span></li></ul></div>
+      <div class="skill-group"><h3>Backend</h3><ul><li class="tile"><img src="assets/icons/fastapi.svg" alt="" width="22" height="22"><span>FastAPI</span></li><li class="tile"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="22" height="22"><span>Flask</span></li><li class="tile"><img src="assets/icons/dotnet.svg" alt="" width="22" height="22"><span>.NET 9</span></li><li class="tile"><img src="assets/icons/graphql.svg" alt="" width="22" height="22"><span>GraphQL</span></li><li class="tile"><img src="assets/icons/postgres.svg" alt="" width="22" height="22"><span>PostgreSQL</span></li><li class="tile"><img src="assets/icons/mysql.svg" alt="" width="22" height="22"><span>MySQL</span></li><li class="tile"><img src="assets/icons/sqlite.svg" alt="" width="22" height="22"><span>SQLite</span></li><li class="tile tile-text"><span>JWT and OAuth2</span></li></ul></div>
+      <div class="skill-group"><h3>AI and ML</h3><ul><li class="tile"><img src="assets/icons/pytorch.svg" alt="" width="22" height="22"><span>PyTorch</span></li><li class="tile"><img src="assets/icons/tensorflow.svg" alt="" width="22" height="22"><span>TensorFlow</span></li><li class="tile"><img src="assets/icons/hugging-face.svg" alt="" width="22" height="22"><span>Hugging Face</span></li><li class="tile"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="22" height="22"><span>Ollama</span></li><li class="tile"><img src="assets/icons/openai.svg" alt="" class="ic-ink" width="22" height="22"><span>OpenAI API</span></li><li class="tile"><img src="assets/icons/gemini.svg" alt="" width="22" height="22"><span>Gemini API</span></li><li class="tile"><img src="assets/icons/chroma.svg" alt="" width="22" height="22"><span>ChromaDB</span></li><li class="tile tile-text"><span>FAISS</span></li><li class="tile tile-text"><span>RAG</span></li><li class="tile tile-text"><span>LoRA and PEFT</span></li><li class="tile tile-text"><span>OpenCV</span></li><li class="tile tile-text"><span>EasyOCR</span></li></ul></div>
+      <div class="skill-group"><h3>Data</h3><ul><li class="tile tile-text"><span>Pandas</span></li><li class="tile tile-text"><span>NumPy</span></li><li class="tile tile-text"><span>Power BI</span></li><li class="tile tile-text"><span>ETL pipelines</span></li><li class="tile"><img src="assets/icons/selenium.svg" alt="" width="22" height="22"><span>Selenium</span></li><li class="tile tile-text"><span>BeautifulSoup</span></li></ul></div>
+      <div class="skill-group"><h3>Frontend</h3><ul><li class="tile"><img src="assets/icons/react.svg" alt="" width="22" height="22"><span>React</span></li><li class="tile"><img src="assets/icons/typescript.svg" alt="" width="22" height="22"><span>TypeScript</span></li><li class="tile"><img src="assets/icons/vitejs.svg" alt="" width="22" height="22"><span>Vite</span></li><li class="tile"><img src="assets/icons/tailwindcss.svg" alt="" width="22" height="22"><span>Tailwind CSS</span></li><li class="tile"><img src="assets/icons/flutter.svg" alt="" width="22" height="22"><span>Flutter</span></li></ul></div>
+      <div class="skill-group"><h3>Cloud and tools</h3><ul><li class="tile"><img src="assets/icons/aws.svg" alt="" width="22" height="22"><span>AWS</span></li><li class="tile"><img src="assets/icons/azure.svg" alt="" width="22" height="22"><span>Azure</span></li><li class="tile"><img src="assets/icons/docker.svg" alt="" width="22" height="22"><span>Docker</span></li><li class="tile"><img src="assets/icons/git.svg" alt="" width="22" height="22"><span>Git</span></li><li class="tile"><img src="assets/icons/linux-tux.svg" alt="" width="22" height="22"><span>Linux</span></li><li class="tile"><img src="assets/icons/playwright.svg" alt="" width="22" height="22"><span>Playwright</span></li></ul></div>
+    </div>
   </section>
 
   <section class="about" id="about" aria-labelledby="about-h">
@@ -205,7 +236,7 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
 </main>
 
 <footer>
-  <span>Nihar Thampi, Bangalore</span>
+  <span>Nihar Thampi, Bangalore. Product names and logos are trademarks of their owners.</span>
   <a href="#top">Back to top</a>
 </footer>
 
