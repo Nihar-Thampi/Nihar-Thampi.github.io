@@ -23,8 +23,9 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
   <a class="home" href="#top">Nihar Thampi</a>
   <nav aria-label="Main">
     <a href="#work">Projects</a>
+    <a href="#experience">Experience</a>
     <a href="#about">About</a>
-    <a class="opt" href="https://github.com/Nihar-Thampi">GitHub</a>
+    <a class="opt" href="Nihar_Thampi_resume.pdf">Résumé</a>
   </nav>
 </header>
 
@@ -39,8 +40,9 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
     <div class="hero-foot">
       <p class="statement">I build software that reads messy things, like receipts, tax law, comment sections, web pages and a technician’s field notes, and turns them into data you can check.</p>
       <div class="who">
-        <p>Software developer in Bangalore. 2025 computer science graduate working mostly in Python, with LLMs and machine learning.</p>
-        <p><a href="#work">See the projects</a> or <a href="https://github.com/Nihar-Thampi">browse my GitHub</a>.</p>
+        <p>Software engineer in Bangalore with 1.5+ years building backend services, data pipelines and LLM applications for fintech, healthcare and security clients.</p>
+        <p class="avail">Open to software and AI engineering roles.</p>
+        <p><a href="#work">See the projects</a>, <a href="Nihar_Thampi_resume.pdf">download my résumé</a> or <a href="mailto:thampi.nihar@gmail.com">email me</a>.</p>
       </div>
     </div>
   </section>
@@ -99,14 +101,104 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
     </ul>
   </section>
 
+  <section class="exp" id="experience" aria-labelledby="exp-h">
+    <div class="work-head">
+      <h2 id="exp-h">Experience</h2>
+      <p>Backend, data and AI work for clients in fintech, healthcare and security, from an internship to independent consulting.</p>
+    </div>
+    <ol class="exp-list">
+      <li>
+        <div class="exp-head">
+          <h3 class="exp-co">NNInfosec</h3>
+          <p class="exp-role">Independent consultant, software development</p>
+          <p class="exp-when">Jun 2026 to present</p>
+        </div>
+        <div class="exp-body">
+          <p class="exp-lede">Built a governance, risk and compliance platform from a formal specification, plus a threat-intelligence automation service, working alone across backend, frontend and deployment.</p>
+          <ul>
+            <li>REST and GraphQL APIs in FastAPI and PostgreSQL, with JWT and MFA sign-in, role-based access, audit logging and database migrations.</li>
+            <li>CSV and Excel bulk imports with per-row validation, and a React and TypeScript admin dashboard for compliance reporting.</li>
+            <li>A Python service that pulls attacker IPs from CrowdStrike Falcon NGSIEM and VirusTotal, scores each one and keeps a blocklist up to date, running unattended as a Windows service.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="exp-head">
+          <h3 class="exp-co">Vault22</h3>
+          <p class="exp-role">Independent consultant, software development</p>
+          <p class="exp-when">Mar 2026 to Jun 2026</p>
+        </div>
+        <div class="exp-body">
+          <p class="exp-lede">Shipped production features for a multi-tenant wealth management platform, across its .NET 9 API and React dashboard, in an agile team.</p>
+          <ul>
+            <li>Backend services in C# with MediatR CQRS handlers, EF Core migrations and PostgreSQL across several financial modules.</li>
+            <li>Sign-in through OAuth2 and JWT with Azure Entra ID and a one-time-token SSO flow, with tenant-scoped roles and structured audit logging.</li>
+            <li>React admin dashboards with server-side filtering, paginated grids, role-based access and per-tab session isolation.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="exp-head">
+          <h3 class="exp-co">Fischer Jordan</h3>
+          <p class="exp-role">Data analyst, intern then full time</p>
+          <p class="exp-when">Mar 2025 to Apr 2026</p>
+        </div>
+        <div class="exp-body">
+          <p class="exp-lede">Joined as an intern and moved to a full-time role after four months, delivering several client projects at once in finance and healthcare.</p>
+          <ul>
+            <li>LLM-based behavioural analysis and query routing that cut therapist report analysis from about an hour to under five minutes.</li>
+            <li>Scraping and LLM extraction pipelines with Selenium, BeautifulSoup and Gemini that cut data-entry turnaround from 4–5 days to 1–2 hours.</li>
+            <li>An enterprise RAG chatbot in PyTorch, FAISS and FastAPI that turns documents in many formats into a searchable knowledge base.</li>
+            <li>Low-latency trading and market-data automation on AWS EC2, Lambda and EventBridge with AsyncIO and PostgreSQL.</li>
+          </ul>
+        </div>
+      </li>
+      <li>
+        <div class="exp-head">
+          <h3 class="exp-co">SnapitAI</h3>
+          <p class="exp-role">Software developer intern</p>
+          <p class="exp-when">Oct 2024 to Dec 2024</p>
+        </div>
+        <div class="exp-body">
+          <p class="exp-lede">Built and deployed a Flutter app with an LLM chatbot.</p>
+          <ul>
+            <li>Integrated SERP and Llama LLM APIs to pull Google-services data and power context-aware chat, deployed on Azure virtual machines.</li>
+          </ul>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <section class="skills" aria-labelledby="skills-h">
+    <div class="work-head">
+      <h2 id="skills-h">Skills</h2>
+      <p>What I use at work and in the projects above.</p>
+    </div>
+    <dl class="skill-groups">
+      <div><dt>Languages</dt><dd>Python, SQL, TypeScript, C#</dd></div>
+      <div><dt>Backend</dt><dd>FastAPI, Flask, .NET 9, REST and GraphQL, JWT and OAuth2, role-based access, PostgreSQL, MySQL, SQLite</dd></div>
+      <div><dt>AI and ML</dt><dd>PyTorch, TensorFlow, Hugging Face Transformers, LLMs, RAG, LoRA and PEFT fine-tuning, prompt engineering, NLP, OpenCV, EasyOCR, FAISS, ChromaDB, Ollama, OpenAI and Gemini APIs</dd></div>
+      <div><dt>Data</dt><dd>Pandas, NumPy, Matplotlib, Power BI, ETL pipelines, data modelling, Selenium, BeautifulSoup</dd></div>
+      <div><dt>Frontend</dt><dd>React, TypeScript, Vite, Tailwind CSS, Flutter</dd></div>
+      <div><dt>Cloud and tools</dt><dd>AWS (EC2, Lambda, EventBridge), Azure, Docker, Git, Linux</dd></div>
+    </dl>
+  </section>
+
   <section class="about" id="about" aria-labelledby="about-h">
     <h2 id="about-h">About</h2>
     <div>
-      <p class="text">I graduated in computer science in 2025 and I’m based in Bangalore. I like taking a messy, real-world input and building the whole path from it to something reliable: the extraction, the checks, the interface and the deployment. Every project here runs with one Docker command on Windows or macOS.</p>
-      <p class="text">If you’re working on something interesting, I’d like to hear about it.</p>
+      <p class="text">I’m a software engineer in Bangalore. I like taking a messy, real-world input and building the whole path from it to something reliable: the extraction, the checks, the interface and the deployment. Every project here runs with one Docker command on Windows or macOS.</p>
+      <div class="edu">
+        <h3>Education</h3>
+        <p><strong>Vellore Institute of Technology, Chennai</strong>, Sep 2021 to Jul 2025</p>
+        <p>B.Tech in Computer Science and Engineering, specialising in Artificial Intelligence and Machine Learning. CGPA 8.08.</p>
+      </div>
+      <p class="text">I’m open to software and AI engineering roles. If you’re working on something interesting, I’d like to hear about it.</p>
       <ul class="contact">
-        <li><a href="https://github.com/Nihar-Thampi">GitHub</a></li>
+        <li><a href="mailto:thampi.nihar@gmail.com">Email</a></li>
         <li><a href="https://www.linkedin.com/in/nihar-thampi">LinkedIn</a></li>
+        <li><a href="https://github.com/Nihar-Thampi">GitHub</a></li>
+        <li><a href="Nihar_Thampi_resume.pdf">Résumé</a></li>
       </ul>
     </div>
   </section>
