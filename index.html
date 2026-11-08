@@ -51,35 +51,50 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
       <p>Each one puts a model where it helps, extracting, drafting or summarising, and wraps it in plain, testable checks so the result can be trusted. Open one to see how it works and what it’s built with.</p>
     </div>
     <ul class="rows">
-      <li><a href="projects/solarops.html" data-preview="img/solarops-dashboard.webp">
-        <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
-        <span class="row-desc">Job tracking for companies that maintain solar installations, with AI that drafts jobs and service reports for people to approve.</span>
-        <span class="row-stack">FastAPI, React, PostgreSQL, Claude API</span>
-        <img class="row-thumb" src="img/solarops-dashboard.webp" width="1568" height="744" loading="lazy" alt="">
+      <li><a href="projects/solarops.html">
+        <span class="row-media"><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
+          <span class="row-desc">Job tracking for companies that maintain solar installations. Claude drafts jobs from customer emails and service reports from field notes, and a person approves each one.</span>
+          <span class="row-stack">FastAPI, React 19, PostgreSQL, Claude API</span>
+          <span class="row-more">How it works and what it’s built with</span>
+        </span>
       </a></li>
-      <li><a href="projects/gleaner.html" data-preview="img/gleaner-preview.webp">
-        <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
-        <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls politely.</span>
-        <span class="row-stack">FastAPI, Playwright, React, Claude API</span>
-        <img class="row-thumb" src="img/gleaner-preview.webp" width="1518" height="914" loading="lazy" alt="">
+      <li><a href="projects/gleaner.html">
+        <span class="row-media"><img src="img/gleaner-preview.webp" width="1518" height="914" alt="Illustration of Gleaner’s change feed: a price drop alert, a new item, a stock change, a removal and a flagged pricing error."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
+          <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls approved sites politely.</span>
+          <span class="row-stack">FastAPI, Playwright, React 19, Claude API</span>
+          <span class="row-more">How it works and what it’s built with</span>
+        </span>
       </a></li>
-      <li><a href="projects/fairshare.html" data-preview="img/fairshare-review.webp">
-        <span class="row-name" style="view-transition-name:t-fairshare">FairShare</span>
-        <span class="row-desc">Scan an invoice or receipt into line items, track what’s unpaid, and split shared bills item by item.</span>
-        <span class="row-stack">Flask, EasyOCR, OpenAI API, React</span>
-        <img class="row-thumb" src="img/fairshare-review.webp" width="856" height="600" loading="lazy" alt="">
+      <li><a href="projects/fairshare.html">
+        <span class="row-media"><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with GST lines marked as tax."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-fairshare">FairShare</span>
+          <span class="row-desc">Photograph an invoice or receipt and OCR plus an LLM pull out every line item. Track what’s unpaid, and split shared bills item by item, exact to the cent.</span>
+          <span class="row-stack">Flask, EasyOCR, OpenAI API, React</span>
+          <span class="row-more">How it works and what it’s built with</span>
+        </span>
       </a></li>
-      <li><a href="projects/sa-tax-bot.html" data-preview="img/taxbot-source.webp">
-        <span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span>
-        <span class="row-desc">A chatbot for South Africa’s Income Tax Act that cites the exact passage behind every point it makes.</span>
-        <span class="row-stack">Flask, ChromaDB, Hugging Face, LoRA</span>
-        <img class="row-thumb" src="img/taxbot-source.webp" width="1568" height="744" loading="lazy" alt="">
+      <li><a href="projects/sa-tax-bot.html">
+        <span class="row-media"><img src="img/taxbot-source.webp" width="1568" height="744" alt="SA Tax Bot answer with a citation opened to the source passage in Section 11 of the Act."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span>
+          <span class="row-desc">A chatbot for South Africa’s Income Tax Act. A local model answers from retrieved passages, and every point links to the exact lines it came from.</span>
+          <span class="row-stack">Flask, ChromaDB, Hugging Face Transformers, LoRA</span>
+          <span class="row-more">How it works and what it’s built with</span>
+        </span>
       </a></li>
-      <li><a href="projects/yt-analyzer.html" data-preview="img/yt-sentiment.webp">
-        <span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span>
-        <span class="row-desc">Sentiment, summaries and a question-answering chat over a YouTube video’s comments, run on local models.</span>
-        <span class="row-stack">FastAPI, Mistral 7B, FAISS, React</span>
-        <img class="row-thumb" src="img/yt-sentiment.webp" width="1568" height="698" loading="lazy" alt="">
+      <li><a href="projects/yt-analyzer.html">
+        <span class="row-media"><img src="img/yt-sentiment.webp" width="1568" height="698" alt="YT Analyzer sentiment charts comparing comment sentiment with the video transcript’s tone."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span>
+          <span class="row-desc">What a video’s comment section actually thinks: sentiment, summaries, advice for the creator and a chat over the comments, all on local models.</span>
+          <span class="row-stack">FastAPI, Mistral 7B, FAISS, React</span>
+          <span class="row-more">How it works and what it’s built with</span>
+        </span>
       </a></li>
     </ul>
   </section>
@@ -102,7 +117,6 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
   <a href="#top">Back to top</a>
 </footer>
 
-<div class="preview" aria-hidden="true"><img alt=""></div>
 <div class="cursor" aria-hidden="true"><span>Open</span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
