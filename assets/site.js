@@ -221,15 +221,20 @@
   }
 
   /* ——— email links: copy the address as well as opening the mail app ——— */
+  var status = document.createElement('span');
+  status.setAttribute('role', 'status');
+  status.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap';
+  document.body.appendChild(status);
   document.querySelectorAll('a[href^="mailto:"]').forEach(function(a){
-    var label = a.textContent, timer;
-    a.setAttribute('aria-live', 'polite');
+    var timer;
+    a.classList.add('copyable');
     a.addEventListener('click', function(){
       var addr = decodeURIComponent(a.getAttribute('href').slice(7).split('?')[0]);
       var done = function(){
-        a.textContent = 'Email copied'; a.classList.add('copied');
+        a.classList.remove('copied'); void a.offsetWidth; a.classList.add('copied');
+        status.textContent = 'Email address copied';
         clearTimeout(timer);
-        timer = setTimeout(function(){ a.textContent = label; a.classList.remove('copied'); }, 2200);
+        timer = setTimeout(function(){ a.classList.remove('copied'); status.textContent = ''; }, 1600);
       };
       var fallback = function(){
         var t = document.createElement('textarea');

@@ -250,6 +250,13 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
 .edu p{margin:0 0 .3em}
 .edu p+p{color:var(--graphite)}
 .contact{list-style:none;padding:0;margin:1.6em 0 0;display:flex;flex-wrap:wrap;gap:.4em 1.6em;font-size:var(--step-2);font-weight:700;letter-spacing:-.02em}
+.copyable{position:relative}
+.copyable::after{
+  content:"Copied";position:absolute;left:50%;bottom:calc(100% + 6px);transform:translate(-50%,4px);pointer-events:none;
+  padding:.35em .6em;border-radius:6px;background:var(--ink);color:var(--paper);font:600 .75rem/1 "Schibsted Grotesk",sans-serif;letter-spacing:0;
+  white-space:nowrap;opacity:0;transition:opacity .15s ease,transform .15s ease;
+}
+.copyable.copied::after{opacity:1;transform:translate(-50%,0)}
 footer{padding:28px var(--gutter) 40px;border-top:1px solid var(--rule);color:var(--graphite);font-size:var(--step--1);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* ——— project page ——— */
