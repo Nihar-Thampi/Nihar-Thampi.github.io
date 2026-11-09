@@ -347,13 +347,6 @@ figcaption{font-size:var(--step--1);color:var(--graphite);margin-top:.8em;max-wi
 .domains td:last-child,.domains th:last-child{padding-right:0}
 .status-blocked{text-decoration:line-through;text-decoration-thickness:1px}
 
-/* ——— cursor ——— */
-.cursor{
-  position:fixed;left:0;top:0;z-index:50;pointer-events:none;width:12px;height:12px;margin:-6px 0 0 -6px;
-  border-radius:50%;background:var(--marker);box-shadow:0 0 0 1.5px color-mix(in srgb,#1D2B4E 45%,transparent);display:grid;place-items:center;
-  transition:width .25s ease,height .25s ease,margin .25s ease,background-color .25s ease,opacity .2s ease;opacity:0;
-}
-.cursor.on{opacity:1}
 
 /* ——— lightbox ——— */
 dialog.lightbox{width:min(96vw,1600px);max-width:none;max-height:94vh;padding:0;border:0;border-radius:6px;background:var(--mat);overflow:auto}
@@ -391,7 +384,6 @@ dialog.lightbox .close{
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation-duration:.01ms!important}
-  .cursor{display:none}
 }
 
 /* Highlights: keep every part of a highlighted word readable */

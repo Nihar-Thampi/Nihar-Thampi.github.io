@@ -7,7 +7,6 @@
 
   var doc = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var fine = window.matchMedia('(pointer: fine)').matches;
 
   /* ——— home intro: the name resolves from OCR-style noise as the images load ——— */
   var name = document.getElementById('name');
@@ -69,19 +68,6 @@
     });
   }
 
-  /* ——— pointer: a trailing marker dot ——— */
-  var c = document.querySelector('.cursor');
-  if (c && fine && !reduce) {
-    doc.classList.add('has-cursor');
-    var x = -500, y = -500, cx = -500, cy = -500;
-    window.addEventListener('pointermove', function(e){ x = e.clientX; y = e.clientY; c.classList.add('on'); }, { passive: true });
-    document.addEventListener('pointerleave', function(){ c.classList.remove('on'); });
-    (function loop(){
-      cx += (x - cx) * 0.22; cy += (y - cy) * 0.22;
-      c.style.transform = 'translate(' + cx + 'px,' + cy + 'px)';
-      requestAnimationFrame(loop);
-    })();
-  }
 
   /* ——— hero pipeline: one real input from each project, and what comes out ——— */
   var flow = document.getElementById('flow');
