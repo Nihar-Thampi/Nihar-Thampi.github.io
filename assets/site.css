@@ -248,11 +248,6 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
 .tile{display:inline-flex;align-items:center;gap:.55em;min-height:40px;padding:0 .85em;border-radius:10px;background:var(--mat);border:1px solid var(--rule);font-size:.9rem;font-weight:500}
 .tile img{width:20px;height:20px;object-fit:contain}
 .tile-text{color:var(--graphite)}
-.impact{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(16px,2.5vw,32px);margin:0 0 clamp(40px,7vh,72px)}
-.impact>div{border-radius:14px;padding:clamp(24px,3vw,40px);background:var(--band);color:var(--band-ink)}
-.impact-num{margin:0 0 .5em;font-size:clamp(2rem,1.2rem + 2.4vw,3.6rem);font-weight:800;letter-spacing:-.045em;line-height:1;color:var(--marker)}
-.impact-num span{font-size:.4em;font-weight:500;letter-spacing:0;color:var(--band-muted);margin:0 .25em;vertical-align:.35em}
-.impact p:not(.impact-num){margin:0;color:var(--band-muted);max-width:42ch}
 .edu{margin:2em 0;padding:1.4em 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);max-width:52ch}
 .edu h3{font-size:var(--step--1);font-weight:500;color:var(--graphite);letter-spacing:0;line-height:1.4;margin-bottom:.6em}
 .edu p{margin:0 0 .3em}
@@ -370,7 +365,6 @@ dialog.lightbox .close{
   .hero,.work-head,.about,.sec{grid-template-columns:minmax(0,1fr)}
   .hero{min-height:auto;align-items:start}
   .hero::before{-webkit-mask-image:linear-gradient(180deg,transparent 40%,#000);mask-image:linear-gradient(180deg,transparent 40%,#000)}
-  .impact{grid-template-columns:minmax(0,1fr)}
   .rows a,.rows li:nth-child(even) a{grid-template-columns:minmax(0,1fr)}
   .rows li:nth-child(even) .row-media{order:0}
   .exp-list>li{grid-template-columns:minmax(0,1fr)}
