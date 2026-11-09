@@ -78,7 +78,7 @@
       { model: 'qwen2.5-7b-instruct', file: 'sa-tax-bot / answer.json', check: 'Every point is matched to a passage of the Act',
         data: [['question', 'Can I deduct trade expenses?'], ['section', '11(a)'], ['lines', '1894–1896'], ['gazette_page', 59], ['unsupported_points', 0]] },
       { model: 'siebert + mistral-7b', file: 'yt-analyzer / overview.json', check: 'Chat answers come only from retrieved comments',
-        data: [['comments', 840], ['positive', 0.434], ['negative', 0.564], ['chat_index', 'faiss']] },
+        data: [['positive', 0.434], ['negative', 0.564], ['chat_index', 'faiss']] },
       { model: 'qwen2.5-14b · ollama', file: 'gleaner / suggest.json', check: 'Selectors tested on the live page first',
         data: [['item_selector', '.product-card'], ['price', '.price .price-now'], ['items', 12], ['fill_rate', 1.0]] },
       { model: 'qwen2.5-14b · ollama', file: 'solarops / report.json', check: 'Nothing is saved until a person approves it',

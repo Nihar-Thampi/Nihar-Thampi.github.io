@@ -43,7 +43,7 @@
   <section class="sec" aria-labelledby="s-why">
     <h2 id="s-why">What it’s for</h2>
     <div class="sec-body prose">
-      <p class="big">YouTube’s analytics tell a creator how many people watched. They don’t say what those people thought, and nobody reads 800 comments to find out.</p>
+      <p class="big">YouTube’s analytics tell a creator how many people watched. They don’t say what those people thought, and nobody has time to read every comment to find out.</p>
       <p>YT Analyzer reads them for you. Paste a video link and it measures <strong>how viewers feel</strong> compared with the tone of the video itself, <strong>summarises</strong> what they said while leaving out off-topic chatter, writes <strong>recommendations</strong> for the creator, and lets you <strong>ask questions</strong> about the comments in a chat that answers only from what viewers actually wrote.</p>
       <p>Everything runs on local models, with no per-call cost, and each account’s videos, keys and results are kept separate.</p>
     </div>
@@ -53,7 +53,7 @@
     <h2 id="s-how">How a video is analysed</h2>
     <div class="sec-body">
       <ol class="flow">
-        <li><h3>Collect</h3><p>The video’s metadata and up to 500 comments come from the YouTube Data API. If the API quota runs out and the user has enabled it, a headless Selenium scraper takes over and returns the same shape of data.</p></li>
+        <li><h3>Collect</h3><p>The video’s metadata and comments come from the YouTube Data API. If the API quota runs out and the user has enabled it, a headless Selenium scraper takes over and returns the same shape of data.</p></li>
         <li><h3>Hand off to the background</h3><p>The request returns straight away and the analysis runs as a background task. The dashboard polls every four seconds and shows which step is running.</p></li>
         <li><h3>Read the transcript first</h3><p>The transcript is fetched and summarised with DistilBART, in chunks and then once more over the combined summaries, because a 20-minute video doesn’t fit in one pass. Its sentiment becomes the video’s own tone, and its topic grounds every later step. Without captions, the later steps fall back to versions that don’t need it.</p></li>
         <li><h3>Score every comment</h3><p>SieBERT classifies each comment. When its confidence is below 0.70, the comment is scored again by BART-MNLI as zero-shot classification against the video’s topic, so slang like “this is sick” on a gaming video reads as praise.</p></li>

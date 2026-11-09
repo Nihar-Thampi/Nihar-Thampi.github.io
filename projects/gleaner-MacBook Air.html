@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gleaner, Nihar Thampi</title>
+<meta name="description" content="Gleaner: a web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls approved sites politely.">
+<meta property="og:image" content="../img/gleaner-preview.webp">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="bar">
+  <a class="home" href="../index.html">Nihar Thampi</a>
+  <nav aria-label="Main">
+    <a href="../index.html#work">All projects</a>
+    <a class="opt" href="https://github.com/Nihar-Thampi">GitHub</a>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="title-card">
+    <h1 style="view-transition-name:t-gleaner">Gleaner</h1>
+    <p class="lede">A web-scraping platform that tracks every change in the data and tells you when one matters.</p>
+    <dl class="meta">
+      <div><dt>What it is</dt><dd>Scraping and monitoring platform</dd></div>
+      <div><dt>Built with</dt><dd>FastAPI, Playwright, React 19, local LLM via Ollama</dd></div>
+      <div><dt>Runs with</dt><dd>Docker Compose and Ollama, with six demo scrapers</dd></div>
+      <div><dt>Code</dt><dd>Private for now</dd></div>
+    </dl>
+  </section>
+
+  <div class="lead-shot">
+    <figure id="change-feed">
+      <div class="panel" role="img" aria-label="Illustration of a Gleaner change feed for a practice outdoor store: a price drop that fired an alert, a new item, a stock change, a removal and a flagged pricing error, with a 30-day price history line.">
+        <h4>Ridgeline Outfitters: prices &amp; stock</h4>
+        <p class="sub">Run 31, complete. 142 items, 5 changes since yesterday.</p>
+        <ul class="feed" aria-hidden="true">
+          <li><span class="kind">Changed</span><span class="item">Summit 35L Pack</span><span class="flag">Alert: price drop</span>
+            <span class="diff">price <del>$189.00</del> <ins>$159.00</ins>, down 15.9%</span></li>
+          <li><span class="kind">New</span><span class="item">Alpine Shell Jacket</span><span></span>
+            <span class="diff">price <ins>$249.00</ins>, stock <ins>In stock</ins></span></li>
+          <li><span class="kind">Changed</span><span class="item">Trail Runner GTX</span><span></span>
+            <span class="diff">stock <del>In stock</del> <ins>Out of stock</ins></span></li>
+          <li><span class="kind">Removed</span><span class="item">Basecamp Enamel Mug</span><span></span>
+            <span class="diff">Recorded because the run was complete</span></li>
+          <li><span class="kind">Check</span><span class="item">Merino Hiking Socks</span><span class="flag">Implausible jump</span>
+            <span class="diff">price <del>$18.00</del> <ins>$180.00</ins>, held for review</span></li>
+        </ul>
+        <div class="spark" aria-hidden="true">
+          <span>Summit 35L Pack, 30 days</span>
+          <svg viewBox="0 0 300 56" preserveAspectRatio="none"><polyline fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" points="0,14 20,14 40,14 60,18 80,18 100,14 120,14 140,10 160,10 180,14 200,14 220,14 240,18 260,18 280,46 300,46"/></svg>
+        </div>
+      </div>
+      <figcaption>Illustration of the change feed, drawn for this page with sample data shaped like the built-in practice store.</figcaption>
+    </figure>
+  </div>
+
+  <section class="sec" aria-labelledby="s-why">
+    <h2 id="s-why">What it’s for</h2>
+    <div class="sec-body prose">
+      <p class="big">Teams that watch other websites, for competitor prices, stock levels, listings or public data, don’t just need the data once. They need to know what changed since yesterday, and to hear about it when a change matters.</p>
+      <p>Most scrapers dump a fresh file on every run and leave the comparing to someone else. Gleaner keeps <strong>every item’s history</strong>, records <strong>field-level changes</strong> between runs, checks each run’s <strong>data quality</strong>, and fires <strong>alerts</strong> on rules you set, such as “price drops 15% or more”.</p>
+      <p>It’s also built to scrape responsibly: approved sites only, robots.txt always obeyed, polite rate limits and an honest crawler identity. Admins approve domains and manage the team, API keys and webhooks. Editors build and run scrapers. Viewers read and export.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-how">
+    <h2 id="s-how">How a run works</h2>
+    <div class="sec-body">
+      <ol class="flow">
+        <li><h3>A domain is approved</h3><p>Before anything is fetched, an admin approves the domain, records why scraping it is acceptable, and sets a rate limit. Every scraper on that site shares the limit.</p></li>
+        <li><h3>A scraper is built</h3><p>CSS selectors define the items, fields, pagination and detail pages, with a live preview against the real page. Or describe the fields in plain English and let the local model propose the selectors.</p></li>
+        <li><h3>Pages are fetched politely</h3><p>Static pages come through httpx, and JavaScript-heavy ones through headless Chromium with Playwright. robots.txt is read first and its Crawl-delay applied. Failed requests retry with exponential backoff and honour Retry-After, and every redirect hop is checked against policy again.</p></li>
+        <li><h3>Fields are extracted and cleaned</h3><p>Each field has a type: text, number, price, URL, yes/no or list. Prices handle currencies and thousands separators, and optional regexes and value maps tidy the rest.</p></li>
+        <li><h3>Items are compared with the last run</h3><p>Items are matched across runs by key fields, and each one is recorded as new, changed, removed or returning, with field-level diffs and a value history. A scraper’s first run only sets the baseline.</p></li>
+        <li><h3>The run is checked</h3><p>Quality checks look at fill rate per field, rejected rows, broken selectors, drops in item count, implausible jumps and mass removals. Alerts fire, and the local model writes a plain-English summary of what changed.</p></li>
+        <li><h3>The data goes where it’s needed</h3><p>CSV, Excel and JSON exports, a read API with API keys, and HMAC-signed webhooks when a run finishes or an alert fires.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-what">
+    <h2 id="s-what">What it does</h2>
+    <div class="sec-body">
+      <div class="features">
+        <div>
+          <h3>Scraping</h3>
+          <ul>
+            <li>Selector builder with live preview</li>
+            <li>Static HTML or a headless browser for JavaScript sites</li>
+            <li>Schedules from hourly to weekly, with live progress, a run log and cancellation</li>
+            <li>Retries, backoff and size limits</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Change tracking</h3>
+          <ul>
+            <li>New, changed, removed and returning items, with field-level diffs</li>
+            <li>Value history charts, such as price over time</li>
+            <li>Removals recorded only on complete runs, so one failed page can’t make items look deleted</li>
+            <li>Alerts on field changes, new items, removals, failed runs and quality flags</li>
+          </ul>
+        </div>
+        <div>
+          <h3>AI, with an offline fallback</h3>
+          <ul>
+            <li>A selector assistant that tests its own suggestions on the live page and gets one correction round</li>
+            <li>AI repair for broken scrapers, keeping the same field names</li>
+            <li>Plain-English run summaries that flag anything that looks wrong</li>
+            <li>A log of every prompt, response, model, latency and token count</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Compliance</h3>
+          <ul>
+            <li>Domains are pending, approved or blocked</li>
+            <li>robots.txt to RFC 9309: a missing file allows everything, one that can’t be reached blocks everything</li>
+            <li>A User-Agent that names GleanerBot with a contact email, and a page telling site owners how to opt out</li>
+            <li>Private, loopback and link-local addresses refused for crawling, robots.txt and webhooks</li>
+          </ul>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="narrow">
+          <div class="panel" role="img" aria-label="Illustration of Gleaner's domain approvals: two approved domains with their rate limits and robots.txt status, one pending, and one blocked private address.">
+            <h4>Domains</h4>
+            <p class="sub">Every site needs an approval and a recorded reason before anything is fetched.</p>
+            <table class="domains" aria-hidden="true">
+              <thead><tr><th>Domain</th><th>Status</th><th>Limit</th><th>robots.txt</th></tr></thead>
+              <tbody>
+                <tr><td>books.toscrape.com</td><td>Approved</td><td>1 request / 2 s</td><td>Allows all</td></tr>
+                <tr><td>scrapethissite.com</td><td>Approved</td><td>1 request / 3 s</td><td>Crawl-delay 3 s</td></tr>
+                <tr><td>shop.example.net</td><td>Pending</td><td>None yet</td><td>Not read yet</td></tr>
+                <tr><td class="status-blocked">10.0.0.12</td><td>Blocked</td><td>None</td><td>Private address</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <figcaption>Illustration of the domain policy, with sample data.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-demo">
+    <h2 id="s-demo">The demo data</h2>
+    <div class="sec-body prose">
+      <p class="big">The seed script creates a workspace with three users and six scrapers, so every feature has something real to show.</p>
+      <p>The centrepiece is <strong>Ridgeline Outfitters</strong>, a fictional practice store served by the backend itself. Its prices and stock change every day based on the date, and 30 days of history are built by replaying each past day through the real extractor and ingest code. That history includes a pricing glitch for the quality checks to catch.</p>
+      <p>The other scrapers run once for real against public sandboxes made for scraping practice: Books to Scrape for pagination and ratings mapped to numbers, Quotes to Scrape for lists, its JavaScript edition as a failing scraper that AI repair fixes by switching to browser rendering, and two pages from Scrape This Site for a 250-row table and paginated stats with composite keys.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-stack">
+    <h2 id="s-stack">Tech stack</h2>
+    <div class="sec-body">
+      <table class="stack">
+        <thead><tr><th scope="col">Layer</th><th scope="col">Tools</th><th scope="col">What it does here</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">API</th><td>FastAPI</td><td>The REST API, the read API at /api/v1, and the practice store</td></tr>
+          <tr><th scope="row">Data</th><td>SQLAlchemy 2, SQLite or PostgreSQL</td><td>Items, runs, change history, alerts and the AI log</td></tr>
+          <tr><th scope="row">Fetching</th><td>httpx, Playwright</td><td>Static requests, and headless Chromium for JavaScript sites</td></tr>
+          <tr><th scope="row">Parsing</th><td>parsel, lxml</td><td>CSS selector extraction</td></tr>
+          <tr><th scope="row">Exports</th><td>openpyxl</td><td>Excel exports, alongside CSV and JSON</td></tr>
+          <tr><th scope="row">Scheduling</th><td>Built-in worker</td><td>Runs on a background thread in the API, or as its own process to scale separately</td></tr>
+          <tr><th scope="row">AI</th><td>Ollama, Qwen2.5 14B</td><td>Selector suggestions, repairs and run summaries from a local model, with output held to a JSON schema and an offline demo mode</td></tr>
+          <tr><th scope="row">Frontend</th><td>React 19, TypeScript, Vite, Tailwind CSS v4</td><td>The scraper builder, run views and dashboards</td></tr>
+          <tr><th scope="row">Frontend data</th><td>TanStack Query, Recharts</td><td>Server state, and value-history charts</td></tr>
+          <tr><th scope="row">Tests</th><td>pytest</td><td>33 tests covering the crawl pipeline, robots.txt, domain policy, SSRF, change tracking, alerts, roles, exports, API keys, webhook signatures and the local model client</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="s-dec">
+    <h2 id="s-dec">Decisions and trade-offs</h2>
+    <div class="sec-body decisions">
+      <div><h3>Politeness is in the core, not a setting</h3><p>Domain approval, robots.txt, shared rate limits and address checks sit in the fetch path every request goes through, so no scraper can skip them. When robots.txt can’t be read, the safe answer is to wait.</p></div>
+      <div><h3>AI suggestions come with a test</h3><p>A proposed selector is only useful if it extracts something. The assistant’s output is run by the real extractor against the live page, and gets one chance to correct fields that come back empty.</p></div>
+      <div><h3>A local model is enough when its work is checked</h3><p>Selector suggestions, repairs and summaries run on Qwen2.5 through Ollama, with no cost per call. Because every suggested selector is tested on the real page, a smaller local model is safe to use: when it gets a field wrong, the fill rate shows it instead of bad data slipping into a scraper. The context window is set large enough for a whole simplified page of HTML.</p></div>
+      <div><h3>Don’t cry wolf</h3><p>A first run is a baseline rather than 142 “new item” alerts, and removals only count on complete runs. Feeds and alerts stay worth reading.</p></div>
+      <div><h3>Demo history through real code</h3><p>The practice store’s 30 days of history go through the same extractor and ingest path as live runs, so the demo exercises the real system rather than seeded rows.</p></div>
+    </div>
+  </section>
+
+  <nav class="next" aria-label="Next project">
+    <a href="fairshare.html"><small>Next project</small><span class="row-name" style="view-transition-name:t-fairshare">FairShare</span></a>
+  </nav>
+</main>
+
+<footer>
+  <span>Nihar Thampi, Bangalore</span>
+  <a href="../index.html#work">All projects</a>
+</footer>
+
+<dialog class="lightbox" id="lightbox" aria-label="Screenshot">
+  <form method="dialog"><button class="close" type="submit">Close</button></form>
+  <img id="lightbox-img" alt="">
+</dialog>
+<div class="cursor" aria-hidden="true"><span>Open</span></div>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="../assets/site.js"></script>
+</body>
+</html>
