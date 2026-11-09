@@ -69,28 +69,16 @@
   }
 
 
-  /* ——— hero pipeline: one real input from each project, and what comes out ——— */
+  /* ——— hero: before → after, one real input from each project ——— */
   var flow = document.getElementById('flow');
   if (flow) {
-    var STEPS = [
-      { model: 'gpt-4o-mini', file: 'fairshare / extract.json', check: 'Items add up to the printed total',
-        data: [['vendor', 'Ember & Oak Grill'], ['line_items', 7], ['tax_lines', ['CGST', 'SGST']], ['total', 3218.26]] },
-      { model: 'qwen2.5-7b-instruct', file: 'sa-tax-bot / answer.json', check: 'Every point is matched to a passage of the Act',
-        data: [['question', 'Can I deduct trade expenses?'], ['section', '11(a)'], ['lines', '1894–1896'], ['gazette_page', 59], ['unsupported_points', 0]] },
-      { model: 'siebert + mistral-7b', file: 'yt-analyzer / overview.json', check: 'Chat answers come only from retrieved comments',
-        data: [['positive', 0.434], ['negative', 0.564], ['chat_index', 'faiss']] },
-      { model: 'qwen2.5-14b · ollama', file: 'gleaner / suggest.json', check: 'Selectors tested on the live page first',
-        data: [['item_selector', '.product-card'], ['price', '.price .price-now'], ['items', 12], ['fill_rate', 1.0]] },
-      { model: 'qwen2.5-14b · ollama', file: 'solarops / report.json', check: 'Nothing is saved until a person approves it',
-        data: [['summary', 'Seized cooling fan replaced; inverter back online'], ['work_performed', 3], ['findings', 2], ['status', 'draft']] }
-    ];
-    var chips = Array.prototype.slice.call(flow.querySelectorAll('.chip'));
-    var svg = flow.querySelector('.flow-wires'), node = flow.querySelector('.flow-node');
-    var modelEl = flow.querySelector('.node-model'), out = flow.querySelector('.flow-out');
+    var STEPS = [{"tab": "FairShare", "src": "receipt.jpg · OCR", "raw": "EMBER & OAK GRILL\nTBL 12        GUESTS 4\n2 PANEER TIKKA       640.00\n1 BUTTER CHKN        485.00\n3 GARLIC NAAN        2l0.00\n2 MANGO LASSI        360.0O\n  ...\nCGST 2.5%             76.63\nSGST 2.5%             76.63\nTOTAL            Rs 3218.26", "model": "gpt-4o-mini", "file": "extract.json", "check": "Items add up to the printed total", "data": [["vendor", "Ember & Oak Grill"], ["line_items", 7], ["tax_lines", ["CGST", "SGST"]], ["total", 3218.26]]}, {"tab": "SA Tax Bot", "src": "question + Income Tax Act", "raw": "> can i deduct trade expenses??\n\n11. General deductions allowed in\ndetermination of taxable income.—\nFor the purpose of determining the\ntaxable income derived by any person\n... there shall be allowed as\ndeductions from the income of such\nperson so derived—\n(a) expenditure and losses actually\nincurred in the production of the\nincome, provided such expenditure", "model": "qwen2.5-7b-instruct", "file": "answer.json", "check": "Every point is matched to a passage of the Act", "data": [["question", "Can I deduct trade expenses?"], ["section", "11(a)"], ["lines", "1894–1896"], ["gazette_page", 59], ["unsupported_points", 0]]}, {"tab": "YT Analyzer", "src": "comments · YouTube Data API", "raw": "@rk_builds   this saved me hours ngl\n@m.ira      audio is SO quiet?? cant hear\n@devnull    bro just read the docs lol\n@ana.k      12:40 is wrong, flag changed\n@throwaway  first\n@lena_codes ok but why not use a venv\n@p.sharma   finally someone explains it\n@kxz        mic peaking again...", "model": "siebert + mistral-7b", "file": "overview.json", "check": "Chat answers come only from retrieved comments", "data": [["positive", 0.434], ["negative", 0.564], ["chat_index", "faiss"]]}, {"tab": "Gleaner", "src": "shop page · HTML", "raw": "<div class=\"grid js-plp\" data-v=\"3\">\n <article class=\"product-card\">\n  <a href=\"/p/trail-runner-2\">\n   <h3>Trail Runner 2</h3>\n  </a>\n  <div class=\"price\">\n   <s>₹4,999</s>\n   <span class=\"price-now\">₹3,499</span>\n  </div>\n  <span class=\"badge\">In stock</span>", "model": "qwen2.5-14b · ollama", "file": "suggest.json", "check": "Selectors tested on the live page first", "data": [["item_selector", ".product-card"], ["price", ".price .price-now"], ["items", 12], ["fill_rate", 1.0]]}, {"tab": "SolarOps", "src": "technician notes", "raw": "site 14 - inv2 down on arrival.\nfan seized, swapped w spare.\nreset breaker, inv back up ~11:40\nstring 3 voltage low?? chk\nconnectors nxt visit.\ncleaned filters. cust informed\n- RK", "model": "qwen2.5-14b · ollama", "file": "report.json", "check": "Nothing is saved until a person approves it", "data": [["summary", "Seized cooling fan replaced; inverter back online"], ["work_performed", 3], ["findings", 2], ["status", "draft"]]}];
+    var tabs = Array.prototype.slice.call(flow.querySelectorAll('.flow-tab'));
+    var panel = flow.querySelector('.flow-panel');
+    var srcEl = flow.querySelector('.flow-src'), rawEl = flow.querySelector('.flow-raw'), modelEl = flow.querySelector('.flow-model');
     var fileEl = flow.querySelector('.flow-file'), codeEl = flow.querySelector('.flow-json code'), checkEl = flow.querySelector('.flow-check');
     var pauseBtn = flow.querySelector('.flow-pause');
-    var NS = 'http://www.w3.org/2000/svg', paths = [], outPath = null, dot = null;
-    var current = 0, paused = reduce, visible = true, timer = null, busy = false;
+    var current = 0, paused = reduce, visible = true, timer = null, run = 0;
 
     var esc = function(t){ return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;'); };
     var val = function(v){
@@ -98,85 +86,46 @@
       if (typeof v === 'number') return '<span class="n">' + (v % 1 ? v : v.toFixed(v === 1 ? 1 : 0)) + '</span>';
       return '"' + esc(v) + '"';
     };
-    var render = function(i, animate){
-      var s = STEPS[i];
-      modelEl.textContent = s.model; fileEl.textContent = s.file; checkEl.textContent = s.check;
-      codeEl.innerHTML = '<span class="p">{</span>\n' + s.data.map(function(kv, j){
+    var json = function(s){
+      return '<span class="p">{</span>\n' + s.data.map(function(kv, j){
         return '  <span class="k">"' + kv[0] + '"</span><span class="p">: </span>' + val(kv[1]) + (j < s.data.length - 1 ? '<span class="p">,</span>' : '');
       }).join('\n') + '\n<span class="p">}</span>';
-      if (animate) { out.classList.remove('swap'); void out.offsetWidth; out.classList.add('swap'); }
     };
-    var mark = function(i){
-      chips.forEach(function(c, j){ c.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
-      paths.forEach(function(p, j){ p.classList.toggle('on', j === i); });
-    };
-    var draw = function(){
-      var f = flow.getBoundingClientRect(), n = node.getBoundingClientRect(), o = out.getBoundingClientRect();
-      svg.setAttribute('viewBox', '0 0 ' + f.width + ' ' + f.height);
-      svg.innerHTML = ''; paths = [];
-      var nx = n.left + n.width / 2 - f.left, ny = n.top - f.top;
-      chips.forEach(function(c){
-        var r = c.getBoundingClientRect(), x = r.left + r.width / 2 - f.left, y = r.bottom - f.top, mid = (ny - y) / 2;
-        var p = document.createElementNS(NS, 'path');
-        p.setAttribute('d', 'M' + x + ' ' + y + ' C' + x + ' ' + (y + mid) + ' ' + nx + ' ' + (ny - mid) + ' ' + nx + ' ' + ny);
-        svg.appendChild(p); paths.push(p);
-      });
-      outPath = document.createElementNS(NS, 'path');
-      outPath.setAttribute('d', 'M' + nx + ' ' + (n.bottom - f.top) + ' L' + nx + ' ' + (o.top - f.top));
-      outPath.classList.add('on'); svg.appendChild(outPath);
-      dot = document.createElementNS(NS, 'circle'); dot.setAttribute('r', '4'); dot.style.opacity = '0'; svg.appendChild(dot);
-      mark(current);
-    };
-    // Each run gets a token; starting a new one (a click) cancels whatever is still animating.
-    var run = 0;
-    var travel = function(path, ms, token, done){
-      if (!path || !dot) { done(); return; }
-      var len = path.getTotalLength(), t0 = performance.now();
-      dot.style.opacity = '1';
-      (function step(now){
-        if (token !== run) return;
-        var k = Math.min(1, (now - t0) / ms), e = k < .5 ? 2 * k * k : 1 - Math.pow(-2 * k + 2, 2) / 2;
-        var pt = path.getPointAtLength(len * e);
-        dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
-        if (k < 1) requestAnimationFrame(step); else { dot.style.opacity = '0'; done(); }
-      })(t0);
-    };
-    var hit = function(){ node.classList.remove('hit'); void node.offsetWidth; node.classList.add('hit'); };
-    // now = true (a click): the answer shows at once and the pulse only decorates it.
-    // now = false (the auto cycle): the pulse carries the input through before the answer appears.
-    var go = function(i, now){
-      var token = ++run;
-      current = i; mark(i);
-      if (dot) dot.style.opacity = '0';
-      if (reduce || !paths[i]) { render(i, false); busy = false; return; }
-      if (now) {
-        render(i, true); hit(); busy = false;
-        travel(paths[i], 450, token, function(){});
-        return;
-      }
-      busy = true;
-      travel(paths[i], 750, token, function(){
-        hit(); modelEl.textContent = STEPS[i].model;
-        travel(outPath, 380, token, function(){ render(i, true); busy = false; });
-      });
+    // now = true (a click): the output shows straight away. now = false (auto cycle): the input is read first.
+    var show = function(i, now){
+      var token = ++run, s = STEPS[i];
+      current = i;
+      tabs.forEach(function(t, j){ t.setAttribute('aria-selected', j === i ? 'true' : 'false'); t.tabIndex = j === i ? 0 : -1; });
+      panel.setAttribute('aria-labelledby', tabs[i].id);
+      srcEl.textContent = s.src; rawEl.textContent = s.raw; modelEl.textContent = s.model;
+      fileEl.textContent = s.file; codeEl.innerHTML = json(s); checkEl.textContent = s.check;
+      if (reduce) return;
+      panel.classList.remove('read', 'done'); void panel.offsetWidth; panel.classList.add('read');
+      if (now) panel.classList.add('done');
+      else setTimeout(function(){ if (token === run) panel.classList.add('done'); }, 900);
     };
     var schedule = function(){
       clearTimeout(timer);
       if (paused) return;
       timer = setTimeout(function(){
-        if (!paused && visible && !document.hidden && !busy) go((current + 1) % STEPS.length, false);
+        if (!paused && visible && !document.hidden) show((current + 1) % STEPS.length, false);
         schedule();
-      }, 3800);
+      }, 4800);
     };
     var setPaused = function(p){
       paused = p; pauseBtn.textContent = p ? 'Play' : 'Pause'; pauseBtn.setAttribute('aria-pressed', p ? 'true' : 'false'); schedule();
     };
-    chips.forEach(function(c, j){ c.addEventListener('click', function(){ setPaused(true); go(j, true); }); });
+    tabs.forEach(function(t, j){
+      t.addEventListener('click', function(){ setPaused(true); show(j, true); });
+      t.addEventListener('keydown', function(e){
+        var k = e.key, n = tabs.length;
+        var to = k === 'ArrowRight' ? (j + 1) % n : k === 'ArrowLeft' ? (j - 1 + n) % n : k === 'Home' ? 0 : k === 'End' ? n - 1 : -1;
+        if (to < 0) return;
+        e.preventDefault(); tabs[to].focus(); setPaused(true); show(to, true);
+      });
+    });
     pauseBtn.addEventListener('click', function(){ setPaused(!paused); });
     if ('IntersectionObserver' in window) new IntersectionObserver(function(es){ visible = es[0].isIntersecting; }).observe(flow);
-    if ('ResizeObserver' in window) new ResizeObserver(function(){ draw(); }).observe(flow);
-    render(0, false); draw();
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
     setPaused(paused);
   }
 

@@ -51,25 +51,41 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
 
     <figure class="pipeline" id="flow" aria-labelledby="flow-title">
       <div class="flow-top">
-        <p class="flow-title" id="flow-title">One input from each project, and what comes out</p>
+        <p class="flow-title" id="flow-title">Messy in, checked data out</p>
         <button class="flow-pause" type="button" aria-pressed="false">Pause</button>
       </div>
-      <div class="flow-in" role="group" aria-label="Choose an input">
-        <button type="button" class="chip" data-i="0" aria-pressed="true">a receipt photo</button>
-        <button type="button" class="chip" data-i="1" aria-pressed="false">the Income Tax Act</button>
-        <button type="button" class="chip" data-i="2" aria-pressed="false">YouTube comments</button>
-        <button type="button" class="chip" data-i="3" aria-pressed="false">a product page’s HTML</button>
-        <button type="button" class="chip" data-i="4" aria-pressed="false">a technician’s notes</button>
+      <div class="flow-tabs" role="tablist" aria-label="Projects">
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-0" aria-controls="flow-panel" aria-selected="true" tabindex="0">FairShare</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-1" aria-controls="flow-panel" aria-selected="false" tabindex="-1">SA Tax Bot</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-2" aria-controls="flow-panel" aria-selected="false" tabindex="-1">YT Analyzer</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-3" aria-controls="flow-panel" aria-selected="false" tabindex="-1">Gleaner</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-4" aria-controls="flow-panel" aria-selected="false" tabindex="-1">SolarOps</button>
       </div>
-      <svg class="flow-wires" aria-hidden="true"></svg>
-      <div class="flow-node" aria-hidden="true">
-        <span class="node-model">gpt-4o-mini</span>
-        <span class="node-plus">+ deterministic checks</span>
-      </div>
-      <div class="flow-out" aria-live="polite">
-        <p class="flow-file">fairshare / extract.json</p>
-        <pre class="flow-json"><code></code></pre>
-        <p class="flow-check"></p>
+      <div class="flow-panel" id="flow-panel" role="tabpanel" aria-labelledby="flow-tab-0">
+        <div class="flow-box flow-input">
+          <p class="flow-label">In <span class="flow-src">receipt.jpg · OCR</span></p>
+          <pre class="flow-raw">EMBER &amp; OAK GRILL
+TBL 12        GUESTS 4
+2 PANEER TIKKA       640.00
+1 BUTTER CHKN        485.00
+3 GARLIC NAAN        2l0.00
+2 MANGO LASSI        360.0O
+  ...
+CGST 2.5%             76.63
+SGST 2.5%             76.63
+TOTAL            Rs 3218.26</pre>
+        </div>
+        <p class="flow-via"><span class="flow-model">gpt-4o-mini</span> + deterministic checks</p>
+        <div class="flow-box flow-out" aria-live="polite">
+          <p class="flow-label">Out <span class="flow-file">extract.json</span></p>
+          <pre class="flow-json"><code><span class="p">{</span>
+  <span class="k">"vendor"</span><span class="p">: </span>"Ember &amp; Oak Grill"<span class="p">,</span>
+  <span class="k">"line_items"</span><span class="p">: </span><span class="n">7</span><span class="p">,</span>
+  <span class="k">"tax_lines"</span><span class="p">: </span><span class="p">[</span>"CGST"<span class="p">, </span>"SGST"<span class="p">]</span><span class="p">,</span>
+  <span class="k">"total"</span><span class="p">: </span><span class="n">3218.26</span>
+<span class="p">}</span></code></pre>
+          <p class="flow-check">Items add up to the printed total</p>
+        </div>
       </div>
     </figure>
   </section>
