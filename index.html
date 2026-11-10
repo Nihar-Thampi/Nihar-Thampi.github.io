@@ -14,7 +14,7 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/site.css?v=20261111g">
+<link rel="stylesheet" href="assets/site.css?v=20261111i">
 </head>
 <body>
 <a class="skip" href="#work">Skip to projects</a>
@@ -213,16 +213,14 @@ TOTAL            Rs 3218.26</pre>
   </section>
 
   <section class="skills" aria-labelledby="skills-h">
-    <div class="work-head">
+    <div class="sk-head">
       <h2 id="skills-h">Skills</h2>
-      <p>What I use at work and in the projects above. The <mark class="sk-key">highlighted</mark> ones are what I reach for first.</p>
+      <p>The tools I use at work and in the projects above, written the way I'd write them down for a new repo.</p>
     </div>
-    <ol class="sk-index">
-      <li class="sk-row"><div class="sk-label"><span class="sk-num">01</span><h3>Backend</h3><p>Where most of my work lives.</p></div><ul class="sk-words"><li class="sk-core">Python</li><li>SQL</li><li class="sk-core">FastAPI</li><li>Flask</li><li>GraphQL</li><li class="sk-core">PostgreSQL</li><li>MySQL</li><li>SQLite</li><li>JWT &amp; OAuth2</li></ul></li>
-      <li class="sk-row"><div class="sk-label"><span class="sk-num">02</span><h3>AI &amp; ML</h3><p>Mostly LLM pipelines and retrieval.</p></div><ul class="sk-words"><li class="sk-core">PyTorch</li><li>TensorFlow</li><li>Hugging Face</li><li>Ollama</li><li>OpenAI API</li><li>Gemini API</li><li class="sk-core">RAG</li><li>ChromaDB</li><li>FAISS</li><li>LoRA &amp; PEFT</li><li>OpenCV</li><li>EasyOCR</li></ul></li>
-      <li class="sk-row"><div class="sk-label"><span class="sk-num">03</span><h3>Data</h3><p>Getting messy data in and cleaned up.</p></div><ul class="sk-words"><li class="sk-core">Pandas</li><li>NumPy</li><li>ETL pipelines</li><li class="sk-core">Selenium</li><li>BeautifulSoup</li><li>Power BI</li></ul></li>
-      <li class="sk-row"><div class="sk-label"><span class="sk-num">04</span><h3>Cloud &amp; tools</h3><p>Shipping it and keeping it running.</p></div><ul class="sk-words"><li class="sk-core">AWS</li><li class="sk-core">Docker</li><li>Git</li><li>Linux</li><li>Playwright</li></ul></li>
-    </ol>
+    <figure class="stackfile" aria-labelledby="stackfile-name">
+      <div class="stackfile-top"><span class="stackfile-tab" id="stackfile-name">stack.yaml</span><span class="stackfile-meta">25 lines · yaml</span></div>
+      <pre class="stackfile-code"><code><span class="y-l"><span class="y-c"># what I use at work and in the projects above</span></span><span class="y-l"><span class="y-k">languages</span><span class="y-p">:</span> <span class="y-p">[</span><span class="y-v">python</span><span class="y-p">, </span><span class="y-v">sql</span><span class="y-p">]</span></span><span class="y-l"></span><span class="y-l"><span class="y-k">backend</span><span class="y-p">:</span></span><span class="y-l">  <span class="y-k">frameworks</span><span class="y-p">:</span>  <span class="y-p">[</span><span class="y-v">fastapi</span><span class="y-p">, </span><span class="y-v">flask</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">apis</span><span class="y-p">:</span>        <span class="y-p">[</span><span class="y-v">rest</span><span class="y-p">, </span><span class="y-v">graphql</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">databases</span><span class="y-p">:</span>   <span class="y-p">[</span><span class="y-v">postgresql</span><span class="y-p">, </span><span class="y-v">mysql</span><span class="y-p">, </span><span class="y-v">sqlite</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">auth</span><span class="y-p">:</span>        <span class="y-p">[</span><span class="y-v">jwt</span><span class="y-p">, </span><span class="y-v">oauth2</span><span class="y-p">]</span></span><span class="y-l"></span><span class="y-l"><span class="y-k">ai_ml</span><span class="y-p">:</span></span><span class="y-l">  <span class="y-k">frameworks</span><span class="y-p">:</span>  <span class="y-p">[</span><span class="y-v">pytorch</span><span class="y-p">, </span><span class="y-v">tensorflow</span><span class="y-p">, </span><span class="y-v">hugging-face</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">llms</span><span class="y-p">:</span>        <span class="y-p">[</span><span class="y-v">ollama</span><span class="y-p">, </span><span class="y-v">openai</span><span class="y-p">, </span><span class="y-v">gemini</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">retrieval</span><span class="y-p">:</span>   <span class="y-p">[</span><span class="y-v">rag</span><span class="y-p">, </span><span class="y-v">chromadb</span><span class="y-p">, </span><span class="y-v">faiss</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">fine_tuning</span><span class="y-p">:</span> <span class="y-p">[</span><span class="y-v">lora</span><span class="y-p">, </span><span class="y-v">peft</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">vision</span><span class="y-p">:</span>      <span class="y-p">[</span><span class="y-v">opencv</span><span class="y-p">, </span><span class="y-v">easyocr</span><span class="y-p">]</span></span><span class="y-l"></span><span class="y-l"><span class="y-k">data</span><span class="y-p">:</span></span><span class="y-l">  <span class="y-k">wrangling</span><span class="y-p">:</span>   <span class="y-p">[</span><span class="y-v">pandas</span><span class="y-p">, </span><span class="y-v">numpy</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">pipelines</span><span class="y-p">:</span>   <span class="y-p">[</span><span class="y-v">etl</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">scraping</span><span class="y-p">:</span>    <span class="y-p">[</span><span class="y-v">selenium</span><span class="y-p">, </span><span class="y-v">beautifulsoup</span><span class="y-p">, </span><span class="y-v">playwright</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">reporting</span><span class="y-p">:</span>   <span class="y-p">[</span><span class="y-v">power-bi</span><span class="y-p">]</span></span><span class="y-l"></span><span class="y-l"><span class="y-k">cloud</span><span class="y-p">:</span></span><span class="y-l">  <span class="y-k">aws</span><span class="y-p">:</span>         <span class="y-p">[</span><span class="y-v">ec2</span><span class="y-p">, </span><span class="y-v">lambda</span><span class="y-p">, </span><span class="y-v">eventbridge</span><span class="y-p">]</span></span><span class="y-l">  <span class="y-k">tools</span><span class="y-p">:</span>       <span class="y-p">[</span><span class="y-v">docker</span><span class="y-p">, </span><span class="y-v">git</span><span class="y-p">, </span><span class="y-v">linux</span><span class="y-p">]</span><span class="y-cur" aria-hidden="true"></span></span></code></pre>
+    </figure>
   </section>
 
   <section class="about" id="about" aria-labelledby="about-h">
@@ -252,6 +250,6 @@ TOTAL            Rs 3218.26</pre>
 
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/site.js?v=20261111g"></script>
+<script src="assets/site.js?v=20261111i"></script>
 </body>
 </html>

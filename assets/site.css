@@ -234,34 +234,38 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
 .exp-body li::marker{color:var(--rule)}
 
 /* ——— skills + education ——— */
-.sk-index{list-style:none;margin:0;padding:0;border-top:1px solid var(--rule)}
-.sk-row{
-  display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:16px clamp(28px,5vw,88px);
-  padding:clamp(28px,5vh,48px) 0;border-bottom:1px solid var(--rule);
+.skills{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:32px clamp(28px,5vw,88px);align-items:start}
+.sk-head{position:sticky;top:clamp(80px,14vh,120px)}
+.sk-head h2{font-size:var(--step-3)}
+.sk-head p{margin:.8em 0 0;max-width:36ch;color:var(--graphite)}
+.stackfile{
+  margin:0;min-width:0;border-radius:16px;overflow:hidden;background:var(--band);color:var(--band-ink);
+  box-shadow:0 40px 80px -40px rgba(13,22,48,.6);
 }
-.sk-num{display:block;font:500 .78rem/1 var(--mono);color:var(--graphite);margin-bottom:.9em}
-.sk-label h3{font-size:var(--step-1);letter-spacing:-.015em;line-height:1.2;margin:0}
-.sk-label p{margin:.35em 0 0;color:var(--graphite);font-size:var(--step--1);max-width:28ch}
-.sk-words{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:.1em .55em;
-  font-size:var(--step-2);font-weight:700;letter-spacing:-.035em;line-height:1.2}
-.sk-words li{position:relative;isolation:isolate;color:var(--graphite);transition:color .2s ease}
-.sk-words li::before{
-  content:"";position:absolute;z-index:-1;left:-.08em;right:-.1em;top:.18em;bottom:.06em;
-  background:var(--marker);transform-origin:left center;transform:scaleX(0) skewX(-8deg);border-radius:.04em .12em .06em .1em;
-  transition:transform .3s cubic-bezier(.65,.05,.25,1);
+.stackfile-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;padding:12px 16px 0;background:var(--band-3);border-bottom:1px solid var(--band-rule)}
+.stackfile-tab{
+  position:relative;top:1px;padding:9px 14px 10px;border:1px solid var(--band-rule);border-bottom-color:var(--band);border-radius:8px 8px 0 0;
+  background:var(--band);font:500 .8rem/1 var(--mono);color:var(--band-ink);
 }
-.sk-words li.sk-core{color:#1D2B4E}
-.sk-words li.sk-core::before,.sk-words li:hover::before{transform:scaleX(1) skewX(-8deg)}
-.sk-words li:hover{color:#1D2B4E}
-.sk-key{background:var(--marker);color:#1D2B4E;padding:0 .2em;border-radius:2px}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]) .sk-words li.sk-core,:root:not([data-theme="light"]) .sk-words li:hover{color:var(--ink)}
-  :root:not([data-theme="light"]) .sk-words li::before{background:color-mix(in srgb,var(--marker) 42%,transparent)}
-  :root:not([data-theme="light"]) .sk-key{background:color-mix(in srgb,var(--marker) 42%,transparent);color:var(--ink)}
+.stackfile-tab::before{content:"";display:inline-block;width:7px;height:7px;margin-right:.6em;border-radius:50%;background:var(--marker);vertical-align:.08em}
+.stackfile-meta{padding-bottom:10px;font:400 .72rem/1 var(--mono);color:var(--band-muted)}
+.stackfile-code{
+  margin:0;padding:18px 0 22px;overflow-x:auto;counter-reset:ln;
+  font:400 clamp(.78rem,.72rem + .25vw,.92rem)/1.75 var(--mono);color:var(--band-ink);tab-size:2;
+  background-image:linear-gradient(90deg,var(--band-3) 3.4em,var(--band-rule) 3.4em,var(--band-rule) calc(3.4em + 1px),transparent 0);
 }
-:root[data-theme="dark"] .sk-words li.sk-core,:root[data-theme="dark"] .sk-words li:hover{color:var(--ink)}
-:root[data-theme="dark"] .sk-words li::before{background:color-mix(in srgb,var(--marker) 42%,transparent)}
-:root[data-theme="dark"] .sk-key{background:color-mix(in srgb,var(--marker) 42%,transparent);color:var(--ink)}
+.stackfile-code code{display:block;min-width:max-content;padding-right:20px}
+.y-l{display:block;white-space:pre;padding-left:4.4em;position:relative;min-height:1.75em}
+.y-l::before{counter-increment:ln;content:counter(ln);position:absolute;left:0;width:2.6em;text-align:right;color:color-mix(in srgb,var(--band-muted) 60%,transparent)}
+.y-l:hover{background:rgba(255,255,255,.03)}
+.y-l:hover::before{color:var(--band-ink)}
+.y-c{color:var(--band-muted);font-style:italic}
+.y-k{color:var(--key)}
+.y-p{color:var(--band-muted)}
+.y-v{color:var(--marker);border-radius:3px;transition:background-color .15s ease,color .15s ease}
+.y-v:hover{background:var(--marker);color:#1D2B4E}
+.y-cur{display:inline-block;width:.55em;height:1.15em;margin-left:.15em;vertical-align:-.2em;background:var(--marker);animation:blink 1.1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
 .edu{margin:2em 0;padding:1.4em 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);max-width:52ch}
 .edu h3{font-size:var(--step--1);font-weight:500;color:var(--graphite);letter-spacing:0;line-height:1.4;margin-bottom:.6em}
 .edu p{margin:0 0 .3em}
@@ -388,9 +392,14 @@ dialog.lightbox .close{
   .counter{left:var(--gutter);right:auto}
   .feed li{grid-template-columns:4.6em minmax(0,1fr)}
   .feed li>:nth-child(3),.feed .diff{grid-column:2}
-  .sk-row{grid-template-columns:minmax(0,1fr)}
+  .skills{grid-template-columns:minmax(0,1fr)}
+  .sk-head{position:static}
 }
 @media (max-width:520px){
+  .stackfile-code{overflow-x:visible;font-size:.76rem}
+  .stackfile-code code{min-width:0;padding-right:12px}
+  .y-l{white-space:pre-wrap;padding-left:calc(4.4em + 15ch);text-indent:-15ch}
+  .stackfile-meta{display:none}
   .bar nav a.opt{display:none}
   .stack thead{display:none}
   .stack tr{display:block;padding:.9em 0;border-bottom:1px solid var(--rule)}
