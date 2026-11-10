@@ -190,12 +190,6 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
   box-shadow:0 30px 60px -34px rgba(0,0,0,.8);transition:transform .3s ease,box-shadow .3s ease;
 }
 .rows a:hover .row-media{transform:translateY(-2px);box-shadow:0 40px 70px -34px rgba(0,0,0,.9)}
-.frame-bar{
-  display:flex;align-items:center;gap:6px;height:30px;padding:0 12px;background:var(--band-3);border-bottom:1px solid var(--band-rule);
-  font:400 .72rem/1 var(--mono);color:var(--band-muted);white-space:nowrap;overflow:hidden;
-}
-.frame-bar i{flex:none;width:9px;height:9px;border-radius:50%;background:#2A3963}
-.frame-bar span{margin-left:10px;overflow:hidden;text-overflow:ellipsis}
 .row-media img{width:100%;transition:transform .5s cubic-bezier(.2,.7,.2,1)}
 .rows a:hover .row-media img{transform:scale(1.02)}
 .row-text{display:flex;flex-direction:column;align-items:flex-start;gap:1em}
