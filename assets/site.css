@@ -412,14 +412,6 @@ dialog.lightbox .close{
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .title-card h1::after{background:color-mix(in srgb,var(--marker) 42%,transparent)}}
 :root[data-theme="dark"] .title-card h1::after{background:color-mix(in srgb,var(--marker) 42%,transparent)}
 .shot{border-radius:10px;box-shadow:0 30px 60px -36px rgba(13,22,48,.55);transition:transform .3s ease,box-shadow .3s ease}
-.shot::before{
-  content:"";display:block;height:26px;border-bottom:1px solid var(--band-rule);
-  background:
-    radial-gradient(circle at 16px 13px,#2A3963 4.5px,transparent 5px),
-    radial-gradient(circle at 31px 13px,#2A3963 4.5px,transparent 5px),
-    radial-gradient(circle at 46px 13px,#2A3963 4.5px,transparent 5px),
-    var(--band-3);
-}
 .shot:hover{transform:translateY(-2px);box-shadow:0 40px 70px -36px rgba(13,22,48,.65)}
 .flow li::before{
   content:counter(step);display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;
