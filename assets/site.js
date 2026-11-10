@@ -182,4 +182,19 @@
       else fallback();
     });
   });
+
+  // skills: filter tiles by area
+  const pills = document.querySelectorAll('.sk-pill');
+  const tiles = document.querySelectorAll('.sk');
+  pills.forEach(btn => btn.addEventListener('click', () => {
+    const cat = btn.dataset.cat;
+    pills.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+    let k = 0;
+    tiles.forEach(t => {
+      const show = cat === 'all' || t.dataset.cat === cat;
+      t.hidden = !show;
+      t.classList.remove('in');
+      if (show) { void t.offsetWidth; t.style.animationDelay = Math.min(k++ * 25, 300) + 'ms'; t.classList.add('in'); }
+    });
+  }));
 })();

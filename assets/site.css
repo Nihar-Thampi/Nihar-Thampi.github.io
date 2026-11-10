@@ -23,13 +23,11 @@
     --paper:#141C2F;--mat:#1B2540;--ink:#E4E9F1;--graphite:#9AA6BB;--rule:#2E3A57;
     --marker:#C9B23A;--marker-ink:#141C2F;color-scheme:dark;--band:#0A1122;--band-2:#121B33;--band-3:#070D1C;
   }
-  :root:not([data-theme="light"]) .tile .ic-ink{filter:invert(1)}
 }
 :root[data-theme="dark"]{
   --paper:#141C2F;--mat:#1B2540;--ink:#E4E9F1;--graphite:#9AA6BB;--rule:#2E3A57;
   --marker:#C9B23A;--marker-ink:#141C2F;color-scheme:dark;--band:#0A1122;--band-2:#121B33;--band-3:#070D1C;
 }
-:root[data-theme="dark"] .tile .ic-ink{filter:invert(1)}
 @media (prefers-reduced-motion:no-preference){
   @view-transition{navigation:auto}
 }
@@ -236,12 +234,34 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
 .exp-body li::marker{color:var(--rule)}
 
 /* ——— skills + education ——— */
-.skill-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(32px,6vh,52px) clamp(24px,4vw,56px);padding-top:clamp(28px,5vh,44px);border-top:1px solid var(--rule)}
-.skill-group h3{font-size:var(--step-1);letter-spacing:-.015em;line-height:1.2;margin:0 0 .8em}
-.skill-group ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
-.tile{display:inline-flex;align-items:center;gap:.55em;min-height:40px;padding:0 .85em;border-radius:10px;background:var(--mat);border:1px solid var(--rule);font-size:.9rem;font-weight:500}
-.tile img{width:20px;height:20px;object-fit:contain}
-.tile-text{color:var(--graphite)}
+.skills{background:var(--band);color:var(--band-ink);border-top:0}
+.skills .work-head p{color:var(--band-muted)}
+.sk-count{display:block;margin-top:.5em;font:400 .8rem/1.4 var(--mono);color:var(--band-muted);opacity:.8}
+.sk-filter{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(24px,4vh,40px)}
+.sk-pill{
+  display:inline-flex;align-items:center;gap:.5em;min-height:38px;padding:0 14px;border-radius:999px;cursor:pointer;
+  background:var(--band-2);color:var(--band-ink);border:1px solid var(--band-rule);font:500 .86rem/1 "Schibsted Grotesk",sans-serif;
+  transition:background-color .2s ease,border-color .2s ease,color .2s ease;
+}
+.sk-pill span{font:400 .7rem/1 var(--mono);color:var(--band-muted)}
+.sk-pill:hover{border-color:var(--marker)}
+.sk-pill[aria-pressed="true"]{background:var(--marker);border-color:var(--marker);color:#1D2B4E}
+.sk-pill[aria-pressed="true"] span{color:#1D2B4E;opacity:.7}
+.sk-pill:focus-visible{outline:2px solid var(--marker);outline-offset:2px}
+.sk-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:clamp(18px,3vh,28px) 12px}
+.sk{display:flex;flex-direction:column;align-items:center;gap:10px;min-width:0;text-align:center}
+.sk[hidden]{display:none}
+.sk.in{animation:skin .35s ease-out both}
+@keyframes skin{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1;transform:none}}
+.sk-ic{
+  display:grid;place-items:center;width:62px;height:62px;border-radius:16px;
+  background:var(--band-2);border:1px solid var(--band-rule);color:var(--marker);
+  box-shadow:0 10px 24px -16px rgba(0,0,0,.9);transition:transform .25s cubic-bezier(.2,.7,.2,1),border-color .25s ease,box-shadow .25s ease;
+}
+.sk-ic svg{width:30px;height:30px}
+.sk-name{max-width:100%;font-size:.78rem;line-height:1.25;color:var(--band-muted);transition:color .2s ease}
+.sk:hover .sk-ic{transform:translateY(-4px) scale(1.06);border-color:var(--marker);box-shadow:0 16px 30px -14px color-mix(in srgb,var(--marker) 45%,transparent)}
+.sk:hover .sk-name{color:var(--band-ink)}
 .edu{margin:2em 0;padding:1.4em 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);max-width:52ch}
 .edu h3{font-size:var(--step--1);font-weight:500;color:var(--graphite);letter-spacing:0;line-height:1.4;margin-bottom:.6em}
 .edu p{margin:0 0 .3em}
@@ -362,7 +382,6 @@ dialog.lightbox .close{
   .rows a,.rows li:nth-child(even) a{grid-template-columns:minmax(0,1fr)}
   .rows li:nth-child(even) .row-media{order:0}
   .exp-list>li{grid-template-columns:minmax(0,1fr)}
-  .skill-groups{grid-template-columns:repeat(2,minmax(0,1fr))}
   .sec>h2{position:static}
   .meta{grid-template-columns:repeat(2,minmax(0,1fr))}
   .features,.shots.two{grid-template-columns:minmax(0,1fr)}
@@ -372,7 +391,9 @@ dialog.lightbox .close{
 }
 @media (max-width:520px){
   .bar nav a.opt{display:none}
-  .skill-groups{grid-template-columns:minmax(0,1fr)}
+  .sk-grid{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))}
+  .sk-ic{width:54px;height:54px;border-radius:14px}
+  .sk-ic svg{width:26px;height:26px}
   .stack thead{display:none}
   .stack tr{display:block;padding:.9em 0;border-bottom:1px solid var(--rule)}
   .stack th,.stack td{display:block;border:0;padding:.1em 0}
