@@ -55,9 +55,9 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
         <button class="flow-pause" type="button" aria-pressed="false">Pause</button>
       </div>
       <div class="flow-tabs" role="tablist" aria-label="Projects">
-        <button type="button" role="tab" class="flow-tab" id="flow-tab-0" aria-controls="flow-panel" aria-selected="true" tabindex="0">FairShare</button>
-        <button type="button" role="tab" class="flow-tab" id="flow-tab-1" aria-controls="flow-panel" aria-selected="false" tabindex="-1">SA Tax Bot</button>
-        <button type="button" role="tab" class="flow-tab" id="flow-tab-2" aria-controls="flow-panel" aria-selected="false" tabindex="-1">YT Analyzer</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-0" aria-controls="flow-panel" aria-selected="true" tabindex="0">Invoice Management Web App (FairShare)</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-1" aria-controls="flow-panel" aria-selected="false" tabindex="-1">AI-Powered Tax Compliance &amp; Advisory Platform</button>
+        <button type="button" role="tab" class="flow-tab" id="flow-tab-2" aria-controls="flow-panel" aria-selected="false" tabindex="-1">Social Media Content Analyzer</button>
         <button type="button" role="tab" class="flow-tab" id="flow-tab-3" aria-controls="flow-panel" aria-selected="false" tabindex="-1">Gleaner</button>
         <button type="button" role="tab" class="flow-tab" id="flow-tab-4" aria-controls="flow-panel" aria-selected="false" tabindex="-1">SolarOps</button>
       </div>
@@ -99,25 +99,25 @@ TOTAL            Rs 3218.26</pre>
       <li><a href="projects/fairshare">
         <span class="row-media"><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with the sales tax and service lines marked as tax."></span>
         <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-fairshare">FairShare</span>
+          <span class="row-name" style="view-transition-name:t-fairshare">Invoice Management Web App (FairShare)</span>
           <span class="row-desc">Photograph an invoice or receipt and OCR plus an LLM pull out every line item. Track what’s unpaid, and split shared bills item by item, exact to the cent.</span>
           <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool">EasyOCR</span><span class="tool"><img src="assets/icons/openai.svg" alt="" class="ic-ink" width="16" height="16">OpenAI API</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/sa-tax-bot">
-        <span class="row-media"><img src="img/taxbot-source.webp" width="1568" height="744" alt="SA Tax Bot answer with a citation opened to the source passage in Section 11(a) of the Act."></span>
+        <span class="row-media"><img src="img/taxbot-source.webp" width="1568" height="744" alt="AI-Powered Tax Compliance &amp; Advisory Platform answer with a citation opened to the source passage in Section 11(a) of the Act."></span>
         <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-taxbot">SA Tax Bot</span>
+          <span class="row-name" style="view-transition-name:t-taxbot">AI-Powered Tax Compliance &amp; Advisory Platform</span>
           <span class="row-desc">A chatbot for South Africa’s Income Tax Act. A local model answers from retrieved passages, and every point links to the exact lines it came from.</span>
           <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool"><img src="assets/icons/chroma.svg" alt="" width="16" height="16">ChromaDB</span><span class="tool"><img src="assets/icons/hugging-face.svg" alt="" width="16" height="16">Hugging Face</span><span class="tool">LoRA</span></span>
           <span class="row-more">How it works and what it’s built with</span>
         </span>
       </a></li>
       <li><a href="projects/yt-analyzer">
-        <span class="row-media"><img src="img/yt-sentiment.webp" width="1568" height="698" alt="YT Analyzer sentiment levels bar and a chart comparing comment sentiment with the video transcript’s tone."></span>
+        <span class="row-media"><img src="img/yt-sentiment.webp" width="1568" height="698" alt="Social Media Content Analyzer sentiment levels bar and a chart comparing comment sentiment with the video transcript’s tone."></span>
         <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-yt">YT Analyzer</span>
+          <span class="row-name" style="view-transition-name:t-yt">Social Media Content Analyzer</span>
           <span class="row-desc">What a video’s comment section actually thinks: sentiment, summaries, advice for the creator and a chat over the comments, all on local models.</span>
           <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool">Mistral 7B</span><span class="tool">FAISS</span></span>
           <span class="row-more">How it works and what it’s built with</span>

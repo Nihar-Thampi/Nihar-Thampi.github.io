@@ -135,6 +135,7 @@ html:not(.loading) .counter{opacity:0;pointer-events:none}
   flex:1 1 auto;min-height:36px;padding:0 .75em;border:0;border-radius:8px;background:transparent;
   color:var(--band-muted);font:600 .8rem/1 inherit;cursor:pointer;white-space:nowrap;transition:background-color .2s,color .2s;
 }
+@media (max-width:420px){.flow-tab{white-space:normal;line-height:1.2;padding:.45em .75em;text-align:center}}
 .flow-tab:hover{color:var(--band-ink);background:var(--band-2)}
 .flow-tab[aria-selected="true"]{background:var(--marker);color:#1D2B4E}
 .flow-tab:focus-visible{outline:2px solid var(--marker);outline-offset:2px}
@@ -259,6 +260,7 @@ footer{padding:28px var(--gutter) 40px;border-top:1px solid var(--rule);color:va
 /* ——— project page ——— */
 .title-card{padding:clamp(120px,20vh,200px) var(--gutter) clamp(40px,7vh,72px)}
 .title-card h1{font-size:clamp(3.4rem,1rem + 10vw,10rem);font-weight:900;letter-spacing:-.05em;line-height:.88;margin-bottom:.22em}
+.title-card h1.long{font-size:clamp(2.3rem,.6rem + 7vw,7rem);overflow-wrap:break-word}
 .title-card .lede{font-size:var(--step-2);line-height:1.18;letter-spacing:-.02em;font-weight:500;max-width:30ch;margin:0}
 .meta{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px clamp(20px,3vw,48px);
@@ -311,6 +313,7 @@ footer{padding:28px var(--gutter) 40px;border-top:1px solid var(--rule);color:va
 .next a{text-decoration:none;display:inline-block}
 .next small{display:block;font-size:var(--step-0);color:var(--graphite);margin-bottom:.4em}
 .next .row-name{font-size:clamp(3rem,1rem + 8vw,8rem);font-weight:900}
+.next .row-name.long{font-size:clamp(2rem,.6rem + 5.5vw,5.5rem);overflow-wrap:break-word}
 .next a:hover .row-name::before,.next a:focus-visible .row-name::before{transform:scaleX(1) skewX(-8deg);transition:transform .35s cubic-bezier(.65,.05,.25,1)}
 .next a:hover .row-name,.next a:focus-visible .row-name{color:var(--marker-ink)}
 
