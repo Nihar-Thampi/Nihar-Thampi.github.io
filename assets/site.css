@@ -417,3 +417,50 @@ dialog.lightbox .close{
 .next{background:var(--band);color:var(--band-ink);border-top:0}
 .next small{color:var(--band-muted)}
 .next a:hover .row-name,.next a:focus-visible .row-name{color:#1D2B4E}
+
+/* ——— refinements (Nov 2026): let the work lead, tidy the edges ——— */
+
+/* A step between --step-2 and --step-3 for project titles, so long names stay two or three lines. */
+:root{--step-25:clamp(2rem,1.35rem + 2.3vw,3.5rem)}
+h2,h3,.statement,.row-desc,.exp-lede{text-wrap:balance}
+/* Highlighted titles keep normal wrapping: the marker fills the title's box, and balanced lines would leave it wider than the text. */
+.name,.title-card h1,.row-name{text-wrap:wrap}
+p,li{text-wrap:pretty}
+
+/* Project list: the screenshot gets the larger column on every row, alternating sides. */
+@media (min-width:861px){
+  .rows a{grid-template-columns:minmax(0,3fr) minmax(0,2fr);align-items:center}
+  .rows li:nth-child(even) a{grid-template-columns:minmax(0,2fr) minmax(0,3fr)}
+}
+.row-name{font-size:var(--step-25);line-height:1;letter-spacing:-.035em}
+.row-desc{font-size:clamp(1.05rem,1rem + .35vw,1.3rem);color:color-mix(in srgb,var(--band-ink) 88%,var(--band-muted))}
+
+/* Screenshots read as windows on any ground: a hairline ring plus the existing depth. */
+.row-media{position:relative;border-color:transparent;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 30px 60px -34px rgba(0,0,0,.85)}
+.rows a:hover .row-media{box-shadow:0 0 0 1px rgba(255,255,255,.22),0 40px 70px -34px rgba(0,0,0,.9)}
+.shot{border-color:transparent;box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 14%,transparent),0 30px 60px -36px rgba(13,22,48,.55)}
+.shot:hover{box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 24%,transparent),0 40px 70px -36px rgba(13,22,48,.65)}
+
+/* Hero demo: project tabs in an even grid instead of ragged wrapped rows. */
+.flow-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.flow-tab:last-child:nth-child(odd){grid-column:1/-1}
+.flow-tab{white-space:normal;line-height:1.25;padding:.55em .8em;min-height:40px;text-align:center;text-wrap:balance}
+
+/* Skills: smaller group headings, four groups to a row on wide screens, chips in the body face. */
+.sk-groups{grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(32px,5vh,48px) clamp(24px,3vw,48px)}
+.sk-group h3{font-size:var(--step-1);letter-spacing:-.02em;line-height:1.15;font-weight:700}
+.sk-group ul{gap:8px;margin-top:.8em}
+.sk-group li{font:500 .9rem/1.3 "Schibsted Grotesk",system-ui,sans-serif;border-radius:999px;padding:.4em .8em}
+@media (max-width:1100px){.sk-groups{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.sk-groups{grid-template-columns:minmax(0,1fr)}}
+
+/* Dark mode: a brighter marker and a band that separates from the page. Highlighted names keep
+   light text over the translucent marker (set above), so glyph parts outside the marker stay readable. */
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){--marker:#E9CF45;--paper:#151D31;--band:#0A1020}
+}
+:root[data-theme="dark"]{--marker:#E9CF45;--paper:#151D31;--band:#0A1020}
+
+/* Wide illustrations (e.g. Gleaner's domains table) scroll inside their panel on very small phones. */
+.panel{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
+.shots>*{min-width:0}
