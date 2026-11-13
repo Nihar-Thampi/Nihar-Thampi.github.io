@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nihar Thampi</title>
-<meta name="description" content="Nihar Thampi, software developer in Bangalore. Software and AI projects that turn messy, real-world input into reliable data.">
+<title>Nihar Thampi, AI and LLM engineer</title>
+<meta name="description" content="Nihar Thampi, software engineer in Bangalore building LLM applications: retrieval with line-level citations, LLM extraction from messy documents, and model drafts that a person approves.">
 <meta property="og:title" content="Nihar Thampi">
-<meta property="og:description" content="Software that turns messy, real-world input into reliable data and working products.">
+<meta property="og:description" content="LLM applications that turn messy, real-world input into reliable data, and check the model’s work before anyone relies on it.">
 <meta property="og:image" content="img/solarops-dashboard.webp">
 <script>
 try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.getItem('introSeen'))document.documentElement.classList.add('loading');}catch(e){}
@@ -39,9 +39,9 @@ try{if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sessionStorage.
         <span class="line" aria-hidden="true" data-text="Thampi">Thampi</span>
       </h1>
       <div class="hero-foot">
-        <p class="statement">I build software that takes messy, real-world input and turns it into reliable data and working products.</p>
-        <p class="who">Software engineer in Bangalore with 1.5+ years building backend services, data pipelines and LLM applications for fintech, healthcare and security clients.</p>
-        <p class="avail">Open to software and AI engineering roles.</p>
+        <p class="statement">I build LLM applications that turn messy, real-world input into reliable data, and check the model’s work before anyone relies on it.</p>
+        <p class="who">Software engineer in Bangalore with 1.5+ years building LLM pipelines, RAG systems and the backend services around them, for fintech, healthcare and security clients.</p>
+        <p class="avail">Open to AI, LLM and software engineering roles.</p>
         <div class="actions">
           <a class="btn" href="#work">View projects</a>
           <a class="btn btn-ghost" href="Nihar_Thampi_resume.pdf">Download résumé</a>
@@ -96,22 +96,31 @@ TOTAL            Rs 3218.26</pre>
       <p>Each one puts a model where it helps, extracting, drafting or summarising, and wraps it in plain, testable checks so the result can be trusted. Open one to see how it works and what it’s built with.</p>
     </div>
     <ul class="rows">
-      <li><a href="projects/fairshare">
-        <span class="row-media"><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with the sales tax and service lines marked as tax."></span>
-        <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-fairshare">Invoice Management Web App (FairShare)</span>
-          <span class="row-desc">Photograph an invoice or receipt and OCR plus an LLM pull out every line item. Track what’s unpaid, and split shared bills item by item, exact to the cent.</span>
-          <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool">EasyOCR</span><span class="tool"><img src="assets/icons/openai.svg" alt="" class="ic-ink" width="16" height="16">OpenAI API</span></span>
-          <span class="row-more">How it works and what it’s built with</span>
-        </span>
-      </a></li>
       <li><a href="projects/sa-tax-bot">
         <span class="row-media"><img src="img/taxbot-source.webp" width="1568" height="744" alt="AI-Powered Tax Compliance &amp; Advisory Platform answer with a citation opened to the source passage in Section 11(a) of the Act."></span>
         <span class="row-text">
           <span class="row-name" style="view-transition-name:t-taxbot">AI-Powered Tax Compliance &amp; Advisory Platform</span>
           <span class="row-desc">A chatbot for South Africa’s Income Tax Act. A local model answers from retrieved passages, and every point links to the exact lines it came from.</span>
           <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool"><img src="assets/icons/chroma.svg" alt="" width="16" height="16">ChromaDB</span><span class="tool"><img src="assets/icons/hugging-face.svg" alt="" width="16" height="16">Hugging Face</span><span class="tool">LoRA</span></span>
-          <span class="row-more">How it works and what it’s built with</span>
+          <span class="row-more">How every answer is traced to the Act</span>
+        </span>
+      </a></li>
+      <li><a href="projects/solarops">
+        <span class="row-media"><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
+          <span class="row-desc">A local LLM drafts jobs from customer emails and service reports from technicians’ field notes, for companies that maintain solar installations. A person approves each one.</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/postgres.svg" alt="" width="16" height="16">PostgreSQL</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
+          <span class="row-more">How a customer email becomes an approved job</span>
+        </span>
+      </a></li>
+      <li><a href="projects/gleaner">
+        <span class="row-media"><img src="img/gleaner-preview.webp" width="1518" height="914" alt="Illustration of Gleaner’s change feed: a price drop alert, a new item, a stock change, a removal and a flagged pricing error."></span>
+        <span class="row-text">
+          <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
+          <span class="row-desc">A web-scraping platform where a local LLM proposes selectors, tests them on the live page and repairs broken scrapers. It tracks every change in the data and only crawls approved sites.</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/playwright.svg" alt="" width="16" height="16">Playwright</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
+          <span class="row-more">How the model builds and repairs scrapers</span>
         </span>
       </a></li>
       <li><a href="projects/yt-analyzer">
@@ -120,25 +129,16 @@ TOTAL            Rs 3218.26</pre>
           <span class="row-name" style="view-transition-name:t-yt">Social Media Content Analyzer</span>
           <span class="row-desc">What a video’s comment section actually thinks: sentiment, summaries, advice for the creator and a chat over the comments, all on local models.</span>
           <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool">Mistral 7B</span><span class="tool">FAISS</span></span>
-          <span class="row-more">How it works and what it’s built with</span>
+          <span class="row-more">How the comments are analysed</span>
         </span>
       </a></li>
-      <li><a href="projects/solarops">
-        <span class="row-media"><img src="img/solarops-dashboard.webp" width="1568" height="744" alt="SolarOps dashboard with open, unassigned and overdue jobs, weekly throughput and technician workload."></span>
+      <li><a href="projects/fairshare">
+        <span class="row-media"><img src="img/fairshare-review.webp" width="856" height="600" alt="FairShare review table of items read from a restaurant bill, with the sales tax and service lines marked as tax."></span>
         <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-solarops">SolarOps</span>
-          <span class="row-desc">Job tracking for companies that maintain solar installations. A local LLM drafts jobs from customer emails and service reports from field notes, and a person approves each one.</span>
-          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/postgres.svg" alt="" width="16" height="16">PostgreSQL</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
-          <span class="row-more">How it works and what it’s built with</span>
-        </span>
-      </a></li>
-      <li><a href="projects/gleaner">
-        <span class="row-media"><img src="img/gleaner-preview.webp" width="1518" height="914" alt="Illustration of Gleaner’s change feed: a price drop alert, a new item, a stock change, a removal and a flagged pricing error."></span>
-        <span class="row-text">
-          <span class="row-name" style="view-transition-name:t-gleaner">Gleaner</span>
-          <span class="row-desc">A web-scraping platform that tracks every change in the data, alerts on the ones that matter, and only crawls approved sites politely.</span>
-          <span class="row-stack"><span class="tool"><img src="assets/icons/fastapi.svg" alt="" width="16" height="16">FastAPI</span><span class="tool"><img src="assets/icons/playwright.svg" alt="" width="16" height="16">Playwright</span><span class="tool"><img src="assets/icons/ollama.svg" alt="" class="ic-ink" width="16" height="16">Ollama</span></span>
-          <span class="row-more">How it works and what it’s built with</span>
+          <span class="row-name" style="view-transition-name:t-fairshare">Invoice Management Web App (FairShare)</span>
+          <span class="row-desc">Photograph an invoice or receipt and OCR plus an LLM pull out every line item. Track what’s unpaid, and split shared bills item by item, exact to the cent.</span>
+          <span class="row-stack"><span class="tool"><img src="assets/icons/flask.svg" alt="" class="ic-ink" width="16" height="16">Flask</span><span class="tool">EasyOCR</span><span class="tool"><img src="assets/icons/openai.svg" alt="" class="ic-ink" width="16" height="16">OpenAI API</span></span>
+          <span class="row-more">How a receipt photo becomes checked data</span>
         </span>
       </a></li>
     </ul>
@@ -187,7 +187,7 @@ TOTAL            Rs 3218.26</pre>
           <p class="exp-when">Mar 2025 to Apr 2026</p>
         </div>
         <div class="exp-body">
-          <p class="exp-lede">Joined as an intern and moved to a full-time role after four months, delivering several client projects at once in finance and healthcare.</p>
+          <p class="exp-lede">Built LLM pipelines for finance and healthcare clients, cutting a one-hour analysis task to under five minutes and data entry from days to hours. Joined as an intern and moved to a full-time role after four months.</p>
           <ul>
             <li>LLM-based behavioural analysis and query routing that cut therapist report analysis from about an hour to under five minutes.</li>
             <li>Scraping and LLM extraction pipelines with Selenium, BeautifulSoup and Gemini that cut data-entry turnaround from 4–5 days to 1–2 hours.</li>
@@ -217,14 +217,14 @@ TOTAL            Rs 3218.26</pre>
       <h2 id="skills-h">Skills</h2>
     </div>
     <div class="sk-groups">
+      <section class="sk-group" aria-label="LLM &amp; GenAI"><h3>LLM &amp; GenAI</h3><ul role="list"><li>RAG</li><li>Fine-tuning (LoRA / PEFT)</li><li>Local LLMs (Ollama)</li><li>Vector search (ChromaDB, FAISS)</li></ul></section>
+      <section class="sk-group" aria-label="ML frameworks"><h3>ML frameworks</h3><ul role="list"><li>PyTorch</li><li>TensorFlow</li><li>Hugging Face Transformers</li><li>OpenCV</li><li>EasyOCR</li></ul></section>
       <section class="sk-group" aria-label="Languages"><h3>Languages</h3><ul role="list"><li>Python</li><li>SQL</li></ul></section>
       <section class="sk-group" aria-label="Backend"><h3>Backend</h3><ul role="list"><li>FastAPI</li><li>Flask</li><li>REST APIs</li><li>GraphQL</li><li>JWT / OAuth2</li></ul></section>
       <section class="sk-group" aria-label="Data &amp; databases"><h3>Data &amp; databases</h3><ul role="list"><li>PostgreSQL</li><li>MySQL</li><li>SQLite</li><li>Pandas</li><li>NumPy</li><li>ETL pipelines</li><li>Power BI</li></ul></section>
       <section class="sk-group" aria-label="DevOps"><h3>DevOps</h3><ul role="list"><li>Docker</li><li>CI/CD pipelines</li><li>Git</li><li>Linux</li></ul></section>
       <section class="sk-group" aria-label="Cloud"><h3>Cloud</h3><ul role="list"><li>AWS EC2</li><li>AWS Lambda</li><li>AWS EventBridge</li></ul></section>
       <section class="sk-group" aria-label="Scraping &amp; automation"><h3>Scraping &amp; automation</h3><ul role="list"><li>Selenium</li><li>BeautifulSoup</li><li>Playwright</li></ul></section>
-      <section class="sk-group" aria-label="ML frameworks"><h3>ML frameworks</h3><ul role="list"><li>PyTorch</li><li>TensorFlow</li><li>Hugging Face Transformers</li><li>OpenCV</li><li>EasyOCR</li></ul></section>
-      <section class="sk-group" aria-label="LLM &amp; GenAI"><h3>LLM &amp; GenAI</h3><ul role="list"><li>RAG</li><li>Fine-tuning (LoRA / PEFT)</li><li>Local LLMs (Ollama)</li><li>Vector search (ChromaDB, FAISS)</li></ul></section>
     </div>
   </section>
 
@@ -255,6 +255,6 @@ TOTAL            Rs 3218.26</pre>
 
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="assets/site.js?v=20261111l"></script>
+<script src="assets/site.js?v=20261113b"></script>
 </body>
 </html>
