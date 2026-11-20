@@ -129,6 +129,15 @@
     setPaused(paused);
   }
 
+  /* ——— home rows: preview each demo muted on hover or focus, loading the video only then ——— */
+  document.querySelectorAll('.row-video').forEach(function(v){
+    var a = v.closest('a'); if (!a || reduce) return;
+    var play = function(){ if (!v.getAttribute('src')) v.src = v.dataset.src; var p = v.play(); if (p && p.catch) p.catch(function(){}); };
+    var stop = function(){ v.pause(); };
+    a.addEventListener('mouseenter', play); a.addEventListener('mouseleave', stop);
+    a.addEventListener('focus', play); a.addEventListener('blur', stop);
+  });
+
   /* ——— lightbox, with a shared-element transition where supported ——— */
   var dlg = document.getElementById('lightbox');
   if (dlg) {

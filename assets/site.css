@@ -464,3 +464,7 @@ p,li{text-wrap:pretty}
 /* Wide illustrations (e.g. Gleaner's domains table) scroll inside their panel on very small phones. */
 .panel{max-width:100%;overflow-x:auto;overscroll-behavior-x:contain}
 .shots>*{min-width:0}
+
+/* ——— demo videos ——— */
+.demo-video{display:block;width:100%;height:auto;aspect-ratio:16/9;background:#000;border-radius:10px;box-shadow:0 0 0 1px color-mix(in srgb,var(--ink) 14%,transparent),0 30px 60px -36px rgba(13,22,48,.55)}
+.row-video{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#000}
